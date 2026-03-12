@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
     runBtn.addEventListener('click', () => {
         const selectedOption = optionSelect.value;
 
-        updateStatus('Starting Speed test... Please wait.', 'warning');
-        output.textContent = 'Initiating Speed test...\nPlease wait up to 2 minutes.';
+        updateStatus('Starting Speed Test... Please wait.', 'warning');
+        output.textContent = 'Initiating Speed Test...\nPlease wait up to 1 minute.';
         setButtonsEnabled(false);
 
         callAPI('run', { option: selectedOption })
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         const html = ansi_up.ansi_to_html(response.result);
                         output.innerHTML = html;
                     } else {
-                        output.textContent = 'No Speedtest results returned.';
+                        output.textContent = 'No Speed Test results returned.';
                     }
                 } else {
                     updateStatus('Failed: ' + response.message, 'error');

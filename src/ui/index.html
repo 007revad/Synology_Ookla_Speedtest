@@ -121,8 +121,9 @@
             border: 1px solid #cce6ff;
         }
         .output {
-            white-space: pre-wrap; /* 줄바꿈 유지 */
-            font-family: monospace; /* 고정폭 글꼴 */
+            white-space: pre-wrap; /* Maintain line breaks */
+            font-family: monospace; /* monospace font */
+            font-size: 16px;
             padding: 15px;
             border: 1px solid #ddd;
             border-radius: 4px;
@@ -134,7 +135,7 @@
             white-space: pre-wrap;
             word-wrap: break-word;
             font-family: 'Courier New', monospace;
-            font-size: 13px;
+            font-size: 16px;
             line-height: 1.4;
             margin: 0;
         }
@@ -148,7 +149,7 @@
     <div class="container">
         <div class="header">
             <h1>Synology Ookla Speedtest</h1>
-            <p>Ookla Speedtest GUI for Synology NAS</p>
+            <!-- <p>Ookla Speedtest GUI for Synology NAS</p> -->
         </div>
 
         <div class="info-panel">
@@ -159,7 +160,7 @@
         <div class="smart-section">
             <h2>Select Ookla Speedtest Server</h2>
             
-            <label for="optionSelect">Choose Option:</label>
+            <!-- <label for="optionSelect">Choose Option:</label> -->
             <select id="optionSelect">
                 <option value="" selected>Auto</option>
                 <option value="-a">Show all SMART attributes (-a)</option>

@@ -212,12 +212,12 @@ run)
                 mv "$TMP_RESULT" "${RESULT_FILE}"
                 chmod 644 "${RESULT_FILE}"
                 SPEED_RESULT="$(cat "${RESULT_FILE}")"
-                json_response true "Speed test completed" "$SPEED_RESULT"
+                json_response true "Speed Test completed" "$SPEED_RESULT"
             else
                 LAST_ERROR=$(tail -20 "$TMP_STDERR" | tail -c 2000 | sed ':a;N;$!ba;s/\n/\\n/g')
                 [ -z "$LAST_ERROR" ] && LAST_ERROR="Unknown error or no error output"
-                json_response false "Speed test failed" "$LAST_ERROR"
-                log "[ERROR] Speed test failed: $LAST_ERROR"
+                json_response false "Speed Test failed" "$LAST_ERROR"
+                log "[ERROR] Speed Test failed: $LAST_ERROR"
             fi
             ;;
         *)

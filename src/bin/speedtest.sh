@@ -117,10 +117,13 @@ done
 
 for line in "${speed_array[@]}"; do
     if [[ "${line}" =~ "Ookla" ]]; then
+        if [[ ! $scriptpath =~ Synospeedtest ]]; then
+            echo -e "\n"
+        fi
         #if [[ $scheduled == "yes" ]]; then
-        #    echo -e "\n$line\n"
+        #    echo -e "$line\n"
         #else
-            echo -e "\n$line - running on $( hostname )\n"
+            echo -e "$line - running on $( hostname )\n"
         #fi
     elif [[ "${line}" =~ "URL:" ]]; then
         echo
@@ -136,7 +139,8 @@ done
 #echo -e "\nLines in array: ${#speed_array[@]}\n"  # debug #####################
 
 #if [[ $scheduled == "yes" ]]; then
+if [[ ! $scriptpath =~ Synospeedtest ]]; then
     echo -e " \n \n"
-#else
-#    echo
-#fi
+else
+    echo
+fi
