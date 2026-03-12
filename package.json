@@ -1,0 +1,27 @@
+{
+  "package": "Syno-Ookla-Speedtest",
+  "name": "Synospeedtest",
+  "version": "1.0.0",
+  "description": "Ookla Speedtest GUI",
+  "target": "./src",
+  "install_type": "package",
+  "dsmuidir": "ui",
+  "install_dep_packages": "",
+  "ctl_stop": "yes",
+  "ctl_uninstall": "yes",
+  "support_conf_folder": "yes",
+  "synology": {
+    "maintainer": "007revad",
+    "maintainer_url": "https://github.com/007revad",
+    "distributor": "https://github.com/007revad/Synology_Ookla_Speedtest/releases",
+    "distributor_url": "https://github.com/007revad/Synology_Ookla_Speedtest/releases",
+    "support_url": "https://github.com/007revad/Synology_Ookla_Speedtest/issues",
+    "help_url": "https://github.com/007revad/Synology_Ookla_Speedtest#README.md",
+    "os_min_ver": "7.0-40337",
+    "os_max_ver": "9.9-99999",
+    "arch": "noarch",
+    "displayname": "Syno Smart Info",
+    "thirdparty": "yes",
+    "beta": "no"
+  }
+}

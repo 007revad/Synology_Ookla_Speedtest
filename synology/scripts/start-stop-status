@@ -1,0 +1,20 @@
+#!/bin/bash
+
+case $1 in
+    start)
+        # Starting the package - returns success as no separate daemon is required
+        exit 0
+        ;;
+    stop)
+        # Stop package - returns success since there is no separate daemon
+        exit 0
+        ;;
+    status)
+        # Check package status - Check if API file exists
+        if [ -f "/var/packages/Synospeedtest/target/ui/api.cgi" ]; then
+            exit 0  # running
+        else
+            exit 1  # stopped
+        fi
+        ;;
+esac
