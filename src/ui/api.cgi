@@ -147,13 +147,13 @@ run)
         "-v"|"-h")
             # Run immediately without waiting for Finished + output
             if [ ! -x "${SPEED_SCRIPT}" ]; then
-                json_response false "Smart script not found or not executable" ""
-                log "[ERROR] Smart script not found or not executable"
+                json_response false "Speedtest script not found or not executable" ""
+                log "[ERROR] Speedtest script not found or not executable"
                 exit 0
             fi
     
             TMP_RESULT="${RESULT_FILE}.tmp"
-            TMP_STDERR="${LOG_DIR}/last_smart_stderr.log"
+            TMP_STDERR="${LOG_DIR}/last_speedtest_stderr.log"
             rm -f "$TMP_RESULT" "$TMP_STDERR"
     
             timeout 30 sudo "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR"
@@ -163,25 +163,25 @@ run)
             if [ $RET -eq 0 ] && [ -s "$TMP_RESULT" ]; then
                 mv "$TMP_RESULT" "${RESULT_FILE}"
                 chmod 644 "${RESULT_FILE}"
-                SMART_RESULT="$(cat "${RESULT_FILE}")"
-                json_response true "SMART script output" "$SMART_RESULT"
+                SPEED_RESULT="$(cat "${RESULT_FILE}")"
+                json_response true "Speedtest script output" "$SPEED_RESULT"
             else
                 LAST_ERROR=$(tail -20 "$TMP_STDERR" | tail -c 2000 | sed ':a;N;$!ba;s/\n/\\n/g')
                 [ -z "$LAST_ERROR" ] && LAST_ERROR="Unknown error or no error output"
-                json_response false "SMART script failed" "$LAST_ERROR"
-                log "[ERROR] SMART script failed: $LAST_ERROR"
+                json_response false "Speedtest script failed" "$LAST_ERROR"
+                log "[ERROR] Speedtest script failed: $LAST_ERROR"
             fi
             ;;
         ""|"-a"|"-i")
             # Existing Finished waiting loop method
             if [ ! -x "${SPEED_SCRIPT}" ]; then
-                json_response false "Smart script not found or not executable" ""
-                log "[ERROR] Smart script not found or not executable"
+                json_response false "Speedtest script not found or not executable" ""
+                log "[ERROR] Speedtest script not found or not executable"
                 exit 0
             fi
     
             TMP_RESULT="${RESULT_FILE}.tmp"
-            TMP_STDERR="${LOG_DIR}/last_smart_stderr.log"
+            TMP_STDERR="${LOG_DIR}/last_speedtest_stderr.log"
             rm -f "$TMP_RESULT" "$TMP_STDERR"
     
             if [ -n "$OPTION" ]; then
@@ -211,13 +211,13 @@ run)
             if grep -q "Finished" "$TMP_RESULT" 2>/dev/null; then
                 mv "$TMP_RESULT" "${RESULT_FILE}"
                 chmod 644 "${RESULT_FILE}"
-                SMART_RESULT="$(cat "${RESULT_FILE}")"
-                json_response true "SMART scan completed" "$SMART_RESULT"
+                SPEED_RESULT="$(cat "${RESULT_FILE}")"
+                json_response true "Speed test completed" "$SPEED_RESULT"
             else
                 LAST_ERROR=$(tail -20 "$TMP_STDERR" | tail -c 2000 | sed ':a;N;$!ba;s/\n/\\n/g')
                 [ -z "$LAST_ERROR" ] && LAST_ERROR="Unknown error or no error output"
-                json_response false "SMART scan failed" "$LAST_ERROR"
-                log "[ERROR] SMART scan failed: $LAST_ERROR"
+                json_response false "Speed test failed" "$LAST_ERROR"
+                log "[ERROR] Speed test failed: $LAST_ERROR"
             fi
             ;;
         *)

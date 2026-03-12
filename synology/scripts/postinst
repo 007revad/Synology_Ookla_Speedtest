@@ -38,8 +38,8 @@ fi
 
 # Set execute permissions for scripts
 BIN_DIR="$TARGET_DIR/bin"
-chmod +x "$BIN_DIR/syno_smart_info.sh" 2>/dev/null
-#chmod +x "$BIN_DIR/generate_smart_result.sh" 2>/dev/null
+chmod +x "$BIN_DIR/speedtest.sh" 2>/dev/null
+#chmod +x "$BIN_DIR/generate_speedtest_result.sh" 2>/dev/null
 
 # Set execute permissions for speedtest binaries
 BIN_DIR="$TARGET_DIR/bin"
@@ -53,18 +53,18 @@ chmod +x "$BIN_DIR/x86_64/speedtest" 2>/dev/null
 chmod +x "$UI_DIR/api.cgi" 2>/dev/null
 log_message "Set execute permissions for api.cgi"
 
-# Generate initial SMART result
-GENERATE_SCRIPT="$BIN_DIR/generate_smart_result.sh"
+# Generate initial speedtest result
+GENERATE_SCRIPT="$BIN_DIR/generate_speed_result.sh"
 if [ -f "$GENERATE_SCRIPT" ]; then
     "$GENERATE_SCRIPT" 2>/dev/null &
-    log_message "Started initial SMART result generation"
+    log_message "Started initial speedtest result generation"
 fi
 
-# Synology SMART Info sudoers configuration
+# Synology Ookla Speedtest sudoers configuration
 # Configure sudoers for web UI scripts
-#SUDOERS_FILE="/etc/sudoers.d/synosmartinfo"
+#SUDOERS_FILE="/etc/sudoers.d/speedtest"
 #cat << 'EOF' | sudo tee "$SUDOERS_FILE" >/dev/null
-#Synosmartinfo ALL=(ALL) NOPASSWD: ALL
+#Synospeedtest ALL=(ALL) NOPASSWD: ALL
 #EOF
 
 #sudo chmod 0440 "$SUDOERS_FILE"
