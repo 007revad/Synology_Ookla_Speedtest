@@ -21,22 +21,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Get latest release tag from 007revad/Synology_Ookla_Speedtest
+      - name: Get release tag
         id: get_latest_tag
         run: |
-          latest_tag=$(curl -s https://api.github.com/repos/007revad/Synology_Ookla_Speedtest/releases/latest | jq -r .tag_name)
-          echo "Latest tag: $latest_tag"
-          major=$(echo $latest_tag | cut -d. -f1 | tr -d 'v')
-          minor=$(echo $latest_tag | cut -d. -f2)
-          patch=$(echo $latest_tag | cut -d. -f3)
-          if [ "$patch" -lt 9 ]; then
-            patch=$((patch + 1))
+          if [ "${{ github.event_name }}" = "release" ]; then
+            echo "new_tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
           else
-            patch=0
-            minor=$((minor + 1))
+            latest_tag=$(curl -s https://api.github.com/repos/007revad/Synology_Ookla_Speedtest/releases/latest | jq -r .tag_name)
+            echo "new_tag=$latest_tag" >> $GITHUB_OUTPUT
           fi
-          new_tag="v${major}.${minor}.${patch}"
-          echo "new_tag=$new_tag" >> $GITHUB_OUTPUT
 
       - name: Synology Package Builder Github Action
         uses: tomgrv/synology-package-builder@v1.3.0
@@ -64,5 +57,6 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ steps.get_latest_tag.outputs.new_tag }}
+          make_latest: false
           files: |
             ./dist/*.spk
