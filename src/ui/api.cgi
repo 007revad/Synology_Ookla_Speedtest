@@ -193,7 +193,7 @@ run)
     
             i=0
             while [ $i -lt 240 ]; do
-                if grep -q "Finished" "$TMP_RESULT" 2>/dev/null; then
+                if grep -q "Result URL" "$TMP_RESULT" 2>/dev/null; then
                     break
                 fi
                 if ! kill -0 $CMD_PID 2>/dev/null; then
@@ -208,7 +208,7 @@ run)
                 wait $CMD_PID 2>/dev/null
             fi
     
-            if grep -q "Finished" "$TMP_RESULT" 2>/dev/null; then
+            if grep -q "Result URL" "$TMP_RESULT" 2>/dev/null; then
                 mv "$TMP_RESULT" "${RESULT_FILE}"
                 chmod 644 "${RESULT_FILE}"
                 SPEED_RESULT="$(cat "${RESULT_FILE}")"
