@@ -2,7 +2,7 @@
   "package": "Syno-Ookla-Speedtest",
   "name": "Synospeedtest",
   "version": "1.0.0",
-  "description": "Ookla Speedtest GUI",
+  "description": "Ookla Speedtest GUI for Synology NAS",
   "target": "./src",
   "install_type": "package",
   "dsmuidir": "ui",
@@ -20,7 +20,7 @@
     "os_min_ver": "7.0-40337",
     "os_max_ver": "9.9-99999",
     "arch": "x86_64",
-    "displayname": "Syno Smart Info",
+    "displayname": "Syno Ookla Speedtest",
     "thirdparty": "yes",
     "beta": "no"
   }
