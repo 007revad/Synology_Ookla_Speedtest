@@ -115,7 +115,56 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     });
 
+    // Load servers into dropdown
+    async function loadServers() {
+        const select = document.getElementById('optionSelect');
+
+        try {
+            // Show loading placeholder
+            const loading = document.createElement('option');
+            loading.disabled = true;
+            loading.textContent = 'Loading server list...';
+            select.appendChild(loading);
+
+            // Run servers.sh to populate servers.list first
+            await callAPI('servers');
+
+            // Remove placeholder
+            select.removeChild(loading);
+
+            const response = await fetch('servers.php');
+            if (!response.ok) throw new Error('servers.list not found');
+            const text = await response.text();
+
+            const lines = text.split('\n').filter(line => line.trim() !== '');
+
+            lines.forEach(line => {
+                const id      = line.slice(0, 6).trim();
+                const name    = line.slice(6, 36).trim();
+                const city    = line.slice(36, 56).trim();
+                const country = line.slice(56).trim();
+
+                if (!id) return;
+
+                const option = document.createElement('option');
+                option.value = id;
+                option.textContent = `${id}  ${name} — ${city}, ${country}`;
+                select.appendChild(option);
+            });
+
+        } catch (err) {
+            console.error('Failed to load servers:', err);
+            const option = document.createElement('option');
+            option.disabled = true;
+            option.textContent = '⚠ Could not load server list';
+            select.appendChild(option);
+        }
+    }
+
     // Automatically load initial system information
     loadSystemInfo();
+
+    // Load dropdown list with local servers
+    loadServers();
 });
-//
+

@@ -11,11 +11,13 @@ PKG_ROOT="/var/packages/${PKG_NAME}"
 TARGET_DIR="${PKG_ROOT}/target"
 LOG_DIR="${PKG_ROOT}/var"
 LOG_FILE="${LOG_DIR}/api.log"
+SERVERS_FILE="${LOG_DIR}/servers.list"
 BIN_DIR="${TARGET_DIR}/bin"
 RESULT_DIR="/usr/syno/synoman/webman/3rdparty/${PKG_NAME}/result"
 RESULT_FILE="${RESULT_DIR}/speedtest.result"
 
 SPEED_SCRIPT="${BIN_DIR}/speedtest.sh"
+SERVERS_SCRIPT="${BIN_DIR}/servers.sh"
 
 mkdir -p "${LOG_DIR}" "${RESULT_DIR}"
 
@@ -140,6 +142,11 @@ info)
     log "[DEBUG] Getting system information"
     DATA="$(get_system_info)"
     json_response true "System information retrieved" "${DATA}"
+    ;;
+
+servers)
+    "${SERVERS_SCRIPT}" > "${SERVERS_FILE}" 2>&1
+    echo '{"success":true,"message":"Server list updated"}'
     ;;
 
 run)
