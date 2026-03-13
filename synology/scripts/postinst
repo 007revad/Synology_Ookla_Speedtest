@@ -63,7 +63,7 @@ fi
 
 # Synology Ookla Speedtest sudoers configuration
 # Configure sudoers for web UI scripts
-SUDOERS_FILE="/etc/sudoers.d/speedtest"
+SUDOERS_FILE="/etc/sudoers.d/Synospeedtest"
 cat << 'EOF' | sudo tee "$SUDOERS_FILE" >/dev/null
 Synospeedtest ALL=(ALL) NOPASSWD: ALL
 EOF

@@ -241,7 +241,11 @@ run)
                 mv "$TMP_RESULT" "${RESULT_FILE}"
                 chmod 644 "${RESULT_FILE}"
                 SPEED_RESULT="$(cat "${RESULT_FILE}")"
-                json_response true "Speed Test completed" "$SPEED_RESULT"
+                RESULT_URL="$(grep -oP 'https://www\.speedtest\.net/result/c/[0-9a-f-]+' "${RESULT_FILE}" | head -1)"
+                RESULT_URL_JSON=$(echo "$RESULT_URL" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
+                DATA_JSON=$(json_escape "$SPEED_RESULT")
+                MSG_JSON=$(echo "Speed Test completed" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
+                echo "{\"success\":true, \"message\":${MSG_JSON}, \"result\":${DATA_JSON}, \"result_url\":${RESULT_URL_JSON}}"
             else
                 LAST_ERROR=$(tail -20 "$TMP_STDERR" | tail -c 2000 | sed ':a;N;$!ba;s/\n/\\n/g')
                 [ -z "$LAST_ERROR" ] && LAST_ERROR="Unknown error or no error output"

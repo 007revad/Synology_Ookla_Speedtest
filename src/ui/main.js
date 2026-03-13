@@ -4,6 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const status = document.getElementById('status');
     const output = document.getElementById('output');
     const systemInfo = document.getElementById('systemInfo');
+    const toggleBtn = document.getElementById('toggleBtn');
+
+    // Toggle state: 'image' or 'text'
+    let viewMode = 'image';
+    let storedImgHtml = '';
+    let storedTextHtml = '';
+
+    toggleBtn.addEventListener('click', () => {
+        if (viewMode === 'image') {
+            viewMode = 'text';
+            output.innerHTML = storedTextHtml;
+            toggleBtn.textContent = 'Show Image';
+        } else {
+            viewMode = 'image';
+            output.innerHTML = storedImgHtml;
+            toggleBtn.textContent = 'Show Text';
+        }
+    });
 
     // Creating an ansi_up instance 
     const ansi_up = new AnsiUp();
@@ -86,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updateStatus('Starting Speed Test... Please wait.', 'warning');
         output.textContent = 'Initiating Speed Test...\nPlease wait up to 1 minute.';
+        toggleBtn.style.display = 'none';
         setButtonsEnabled(false);
 
         callAPI('run', { option: selectedOption })
@@ -94,11 +113,31 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateStatus('Success: ' + response.message, 'success');
 
                     if (response.result && response.result.trim()) {
-                        // Convert ANSI color codes to HTML style
-                        const html = ansi_up.ansi_to_html(response.result);
-                        output.innerHTML = html;
+                        storedTextHtml = `<pre>${ansi_up.ansi_to_html(response.result)}</pre>`;
+
+                        if (response.result_url) {
+                            const imgUrl  = response.result_url + '.png';
+                            const pageUrl = response.result_url;
+                            storedImgHtml = `<div class="speedtest-result-img">` +
+                                                `<a href="${pageUrl}" target="_blank" rel="noopener">` +
+                                                    `<img src="${imgUrl}" alt="Speedtest Result">` +
+                                                `</a>` +
+                                            `</div>`;
+                            // Default to image view
+                            viewMode = 'image';
+                            output.innerHTML = storedImgHtml;
+                            toggleBtn.textContent = 'Show Text';
+                            toggleBtn.style.display = 'inline-block';
+                        } else {
+                            // No image available, just show text
+                            storedImgHtml = '';
+                            viewMode = 'text';
+                            output.innerHTML = storedTextHtml;
+                            toggleBtn.style.display = 'none';
+                        }
                     } else {
                         output.textContent = 'No Speed Test results returned.';
+                        toggleBtn.style.display = 'none';
                     }
                 } else {
                     updateStatus('Failed: ' + response.message, 'error');
