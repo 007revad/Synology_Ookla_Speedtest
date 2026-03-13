@@ -71,6 +71,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     } catch (e) {
                         console.error('Failed to parse system info:', e);
                     }
+                    if (infoObj.PKG_VERSION) {
+                        document.querySelector('.header h1').textContent =
+                            `Synology Ookla Speedtest v${infoObj.PKG_VERSION}`;
+                    }
                     systemInfo.innerHTML = `
                         <strong>MODEL:</strong> <span>${infoObj.MODEL || 'N/A'}</span>
                         <strong>PLATFORM:</strong> <span>${infoObj.PLATFORM || 'N/A'}</span>

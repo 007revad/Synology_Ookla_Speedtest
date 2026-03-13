@@ -8,6 +8,7 @@
 
 PKG_NAME="Synospeedtest"
 PKG_ROOT="/var/packages/${PKG_NAME}"
+PKG_VERSION=$(synopkg version "$PKG_NAME")
 TARGET_DIR="${PKG_ROOT}/target"
 LOG_DIR="${PKG_ROOT}/var"
 LOG_FILE="${LOG_DIR}/api.log"
@@ -135,6 +136,7 @@ print(json.dumps({
 'MODEL': '$model',
 'PLATFORM': '$platform',
 'DSM_VERSION': '$version',
+'PKG_VERSION': '$PKG_VERSION'
 }))"
 }
 
