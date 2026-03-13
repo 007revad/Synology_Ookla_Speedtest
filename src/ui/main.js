@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const output = document.getElementById('output');
     const systemInfo = document.getElementById('systemInfo');
 
-    // Creating an ansi_up instance
+    // Creating an ansi_up instance 
     const ansi_up = new AnsiUp();
 
     // System information parsing function (same as before)

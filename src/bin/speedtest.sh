@@ -7,7 +7,7 @@
 #   - Docker must be installed and running
 #   - Script must be run as sudo or root
 #--------------------------------------------------------------------------
-# Ookla speedtest-cli options
+# Ookla speedtest-cli options 
 # https://gist.github.com/itsChris/6f7a5d59b408f0cb774bf2570137a0ef
 #--------------------------------------------------------------------------
 

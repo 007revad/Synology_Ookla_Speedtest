@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #--------------------------------------------------------------------------
-# Script to run speedtest-cli and get list of closest servers
+# Script to run speedtest-cli and get list of closest servers 
 #--------------------------------------------------------------------------
 
 arch="$(uname -m)"
