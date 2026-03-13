@@ -18,6 +18,10 @@ id=
 
 scriptname=speedtest_internet
 
+if [[ -z "$id" && -n "$1" ]]; then
+    id="$1"
+fi
+
 arch="$(uname -m)"
 
 is_schedule_running(){ 

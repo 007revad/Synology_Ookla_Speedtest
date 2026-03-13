@@ -145,11 +145,31 @@ info)
     ;;
 
 servers)
-    "${SERVERS_SCRIPT}" > "${SERVERS_FILE}" 2>&1
+    #"${SERVERS_SCRIPT}" > "${SERVERS_FILE}" 2>&1
+    sudo "${SERVERS_SCRIPT}" 2>&1
     echo '{"success":true,"message":"Server list updated"}'
     ;;
 
+getservers)
+    if [ -f "${SERVERS_FILE}" ] && [ -s "${SERVERS_FILE}" ]; then
+        content=$(cat "${SERVERS_FILE}")
+        json_content=$(python3 -c "
+import json, sys
+data = sys.stdin.read()
+print(json.dumps(data))
+" <<< "$content")
+        echo "{\"success\":true,\"result\":${json_content}}"
+    else
+        echo '{"success":false,"message":"servers.list not found or empty"}'
+    fi
+    ;;
+
 run)
+    if [[ "${OPTION}" =~ ^[0-9]? ]]; then
+        ID="${OPTION}"
+        OPTION=""
+    fi
+    
     case "${OPTION}" in
         "-v"|"-h")
             # Run immediately without waiting for Finished + output
@@ -193,6 +213,8 @@ run)
     
             if [ -n "$OPTION" ]; then
                 timeout 240 sudo "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+            elif [[ "$ID" =~ ^[0-9]? ]]; then
+                timeout 240 sudo "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
             else
                 timeout 240 sudo "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
             fi

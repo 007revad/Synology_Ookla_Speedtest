@@ -4,13 +4,9 @@
 #--------------------------------------------------------------------------
 
 arch="$(uname -m)"
-
-readarray -t servers  <<< "$(/var/packages/Synospeedtest/target/bin/$arch/speedtest --servers | tail +5)"
-
-touch /var/packages/Synospeedtest/var/servers.list
-for server in "${servers[@]}"; do
-    #echo "DEBUG $server"
-    echo "$server" >> /var/packages/Synospeedtest/var/servers.list
-done
-chmod 0755 /var/packages/Synospeedtest/var/servers.list
+/var/packages/Synospeedtest/target/bin/$arch/speedtest --servers 2>/dev/null \
+    | tail -n +5 \
+    > /var/packages/Synospeedtest/var/servers.list
+chmod 0666 /var/packages/Synospeedtest/var/servers.list
+chown Synospeedtest:Synospeedtest /var/packages/Synospeedtest/var/servers.list
 

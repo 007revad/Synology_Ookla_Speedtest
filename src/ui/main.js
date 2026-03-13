@@ -118,42 +118,41 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load servers into dropdown
     async function loadServers() {
         const select = document.getElementById('optionSelect');
+        // Show loading placeholder
+        const loading = document.createElement('option');
+        loading.disabled = true;
+        loading.textContent = 'Loading server list...';
+        select.appendChild(loading);
 
         try {
-            // Show loading placeholder
-            const loading = document.createElement('option');
-            loading.disabled = true;
-            loading.textContent = 'Loading server list...';
-            select.appendChild(loading);
-
             // Run servers.sh to populate servers.list first
             await callAPI('servers');
 
+            const data = await callAPI('getservers');
             // Remove placeholder
             select.removeChild(loading);
 
-            const response = await fetch('servers.php');
-            if (!response.ok) throw new Error('servers.list not found');
-            const text = await response.text();
+            if (!data.success) throw new Error(data.message);
 
-            const lines = text.split('\n').filter(line => line.trim() !== '');
+            const lines = data.result.split('\n').filter(line => line.trim() !== '');
 
             lines.forEach(line => {
-                const id      = line.slice(0, 6).trim();
+                const id = line.slice(0, 6).trim();
+                if (!id) return;
+
                 const name    = line.slice(6, 36).trim();
                 const city    = line.slice(36, 56).trim();
                 const country = line.slice(56).trim();
 
-                if (!id) return;
-
                 const option = document.createElement('option');
                 option.value = id;
-                option.textContent = `${id}  ${name} — ${city}, ${country}`;
+                option.textContent = `${name} - ${city}, ${country}`;
                 select.appendChild(option);
             });
 
         } catch (err) {
             console.error('Failed to load servers:', err);
+            select.removeChild(loading);
             const option = document.createElement('option');
             option.disabled = true;
             option.textContent = '⚠ Could not load server list';
