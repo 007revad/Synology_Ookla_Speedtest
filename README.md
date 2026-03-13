@@ -1,4 +1,4 @@
-# <img src="images/icon.png" width="80"> Synology Ookla Speedtest
+# <img src="images/icon_rounded.png" width="70"> Synology Ookla Speedtest
 
 <a href="https://github.com/007revad/Synology_Ookla_Speedtest/releases"><img src="https://img.shields.io/github/release/007revad/Synology_Ookla_Speedtest.svg"></a>
 ![Badge](https://hitscounter.dev/api/hit?url=https%3A%2F%2Fgithub.com%2F007revad%2FSynology_Ookla_Speedtest&label=Visitors&icon=github&color=%23198754&message=&style=flat&tz=Australia%2FSydney)
@@ -26,3 +26,8 @@ Synology package to install Ookla Speedtest and run it in a GUI.
 
 <!--- <p align="center">Description of image 2 goes here</p> --->
 <p align="center"><img src="/images/web_ui.png"></p>
+
+<br>
+
+<p align="center">Select Server list</p>
+<p align="center"><img src="/images/select_server.png"></p>
