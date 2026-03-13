@@ -63,10 +63,10 @@ fi
 
 # Synology Ookla Speedtest sudoers configuration
 # Configure sudoers for web UI scripts
-SUDOERS_FILE="/etc/sudoers.d/Synospeedtest"
-cat << 'EOF' | sudo tee "$SUDOERS_FILE" >/dev/null
-Synospeedtest ALL=(ALL) NOPASSWD: ALL
-EOF
+#SUDOERS_FILE="/etc/sudoers.d/Synospeedtest"
+#cat << 'EOF' | sudo tee "$SUDOERS_FILE" >/dev/null
+#Synospeedtest ALL=(ALL) NOPASSWD: ALL
+#EOF
 
 sudo chmod 0440 "$SUDOERS_FILE"
 log_message "Sudoers file created and permissions set: $SUDOERS_FILE"

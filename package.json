@@ -1,7 +1,7 @@
 {
   "package": "Syno-Ookla-Speedtest",
   "name": "Synospeedtest",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Ookla Speedtest GUI for Synology NAS",
   "target": "./src",
   "install_type": "package",

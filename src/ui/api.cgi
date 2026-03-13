@@ -193,10 +193,19 @@ run)
                 SPEED_RESULT="$(cat "${RESULT_FILE}")"
                 json_response true "Speedtest script output" "$SPEED_RESULT"
             else
-                LAST_ERROR=$(tail -20 "$TMP_STDERR" | tail -c 2000 | sed ':a;N;$!ba;s/\n/\\n/g')
-                [ -z "$LAST_ERROR" ] && LAST_ERROR="Unknown error or no error output"
-                json_response false "Speedtest script failed" "$LAST_ERROR"
-                log "[ERROR] Speedtest script failed: $LAST_ERROR"
+                LAST_ERROR=$(python3 -c "
+import json, sys
+try:
+    with open('${TMP_STDERR}') as f:
+        lines = f.readlines()[-20:]
+    text = ''.join(lines)[:2000].strip()
+except Exception:
+    text = ''
+print(json.dumps(text if text else 'Unknown error or no error output'))
+")
+                MSG_JSON=$(echo "Speedtest script failed" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
+                echo "{\"success\":false, \"message\":${MSG_JSON}, \"result\":${LAST_ERROR}}"
+                log "[ERROR] Speedtest script failed"
             fi
             ;;
         ""|"-a"|"-i")
@@ -247,10 +256,19 @@ run)
                 MSG_JSON=$(echo "Speed Test completed" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
                 echo "{\"success\":true, \"message\":${MSG_JSON}, \"result\":${DATA_JSON}, \"result_url\":${RESULT_URL_JSON}}"
             else
-                LAST_ERROR=$(tail -20 "$TMP_STDERR" | tail -c 2000 | sed ':a;N;$!ba;s/\n/\\n/g')
-                [ -z "$LAST_ERROR" ] && LAST_ERROR="Unknown error or no error output"
-                json_response false "Speed Test failed" "$LAST_ERROR"
-                log "[ERROR] Speed Test failed: $LAST_ERROR"
+                LAST_ERROR=$(python3 -c "
+import json, sys
+try:
+    with open('${TMP_STDERR}') as f:
+        lines = f.readlines()[-20:]
+    text = ''.join(lines)[:2000].strip()
+except Exception:
+    text = ''
+print(json.dumps(text if text else 'Unknown error or no error output'))
+")
+                MSG_JSON=$(echo "Speed Test failed" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
+                echo "{\"success\":false, \"message\":${MSG_JSON}, \"result\":${LAST_ERROR}}"
+                log "[ERROR] Speed Test failed"
             fi
             ;;
         *)

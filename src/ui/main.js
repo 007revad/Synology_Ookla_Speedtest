@@ -141,7 +141,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 } else {
                     updateStatus('Failed: ' + response.message, 'error');
-                    output.textContent = 'Error: ' + response.message;
+                    // Show the actual stderr error if present, otherwise fall back to the message
+                    const errText = (response.result && response.result.trim())
+                        ? response.result.trim()
+                        : response.message;
+                    output.textContent = errText;
+                    toggleBtn.style.display = 'none';
                 }
             })
             .catch(error => {
