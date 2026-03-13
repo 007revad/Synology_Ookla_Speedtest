@@ -146,7 +146,7 @@ info)
 
 servers)
     #"${SERVERS_SCRIPT}" > "${SERVERS_FILE}" 2>&1
-    sudo "${SERVERS_SCRIPT}" 2>&1
+    sudo -u Synospeedtest "${SERVERS_SCRIPT}" 2>&1
     echo '{"success":true,"message":"Server list updated"}'
     ;;
 
@@ -183,7 +183,7 @@ run)
             TMP_STDERR="${LOG_DIR}/last_speedtest_stderr.log"
             rm -f "$TMP_RESULT" "$TMP_STDERR"
     
-            timeout 30 sudo "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR"
+            timeout 30 sudo -u Synospeedtest "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR"
             sleep 0.3  # Wait about 300ms
             RET=$?
     
@@ -221,11 +221,11 @@ print(json.dumps(text if text else 'Unknown error or no error output'))
             rm -f "$TMP_RESULT" "$TMP_STDERR"
     
             if [ -n "$OPTION" ]; then
-                timeout 240 sudo "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                timeout 240 sudo -u Synospeedtest "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
             elif [[ "$ID" =~ ^[0-9]? ]]; then
-                timeout 240 sudo "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                timeout 240 sudo -u Synospeedtest "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
             else
-                timeout 240 sudo "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                timeout 240 sudo -u Synospeedtest "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
             fi
             CMD_PID=$!
     
