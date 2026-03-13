@@ -16,6 +16,7 @@ Synology package to install Ookla Speedtest and run it in a GUI.
 2. In Package Center click on "Manual Install.
 3. Browse to where you downloaded the .spk file.
 4. Select the .spk file and click Next.
+5. [Set the permissions that the package needs](https://github.com/007revad/Synology_Ookla_Speedtest/blob/main/set_package_permissions.md). <-- **IMPORTANT**
 
 ### Screenshots
 
