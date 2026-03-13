@@ -124,6 +124,10 @@ get_system_info() {
     platform="$(clean_system_string "$platform")"
     version="$(clean_system_string "$version")"
     smallfix="$(clean_system_string "$smallfix")"
+    
+    if [[ "$smallfix" -gt "0" ]]; then
+        version="$version Update $smallfix"
+    fi
 
     python3 -c "
 import json
@@ -131,7 +135,6 @@ print(json.dumps({
 'MODEL': '$model',
 'PLATFORM': '$platform',
 'DSM_VERSION': '$version',
-'Update': '$smallfix'
 }))"
 }
 
