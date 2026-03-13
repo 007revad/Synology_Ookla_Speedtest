@@ -26,3 +26,8 @@ Synology package to install Ookla Speedtest and run it in a GUI.
 
 <!--- <p align="center">Description of image 2 goes here</p> --->
 <p align="center"><img src="/images/web_ui.png"></p>
+
+<br>
+
+<p align="center">Select Server list</p>
+<p align="center"><img src="/images/select_server.png"></p>
