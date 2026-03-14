@@ -14,7 +14,7 @@ jobs:
       matrix:
         #arch: ['kvmx64']
         #arch: ['noarch']
-        arch: ['']
+        arch: ['aarch64']
         #dsm: ['7.0','7.1','7.2','7.3']
         dsm: ['7.0']
 
