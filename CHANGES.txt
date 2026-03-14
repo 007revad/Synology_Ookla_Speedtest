@@ -1,5 +1,5 @@
 v1.0.11
-- Added insructions on setting the permissions required by the package.
+- Added instructions on setting the permissions required by the package.
 - Added package version to web ui header.
 - Changed to show DSM "Update N" on same line as DSM version.
 
