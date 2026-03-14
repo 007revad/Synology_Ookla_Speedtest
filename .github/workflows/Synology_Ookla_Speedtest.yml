@@ -14,7 +14,7 @@ jobs:
       matrix:
         arch: ['kvmx64']
         #arch: ['noarch']
-        #dsm: ['7.0','7.1','7.2','7.3']
+        #dsm: ['7.0','7.1','7.2','7.3']  # see lines 53 and 54
         dsm: ['7.0']
 
     steps:
@@ -50,7 +50,8 @@ jobs:
       - name: Upload Package
         uses: actions/upload-artifact@v4
         with:
-          name: SynoSpeedtest-${{ matrix.dsm }}
+          #name: SynoSpeedtest-${{ matrix.dsm }}  # uncomment if matrix contains more than 1 arch or 1 DSM version
+          name: SynoSpeedtest-x86_64-DSM-7.x  # comment if matrix contains more than 1 arch or 1 DSM version
           path: ./dist/*.spk
 
       - name: Release
