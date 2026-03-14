@@ -16,7 +16,8 @@ jobs:
         #arch: ['noarch']
         #arch: ['aarch64']
         #arch: ['armv8']
-        arch: ['rtd1619b']
+        #arch: ['rtd1619b']
+        arch: ['kvmarmv8']
         #dsm: ['7.0','7.1','7.2','7.3']
         dsm: ['7.0']
 
