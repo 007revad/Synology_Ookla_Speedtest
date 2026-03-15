@@ -14,7 +14,7 @@ jobs:
       matrix:
         arch: ['kvmx64']
         #arch: ['noarch']
-        #dsm: ['7.0','7.1','7.2','7.3']  # see lines 53 and 54 if you uncomment this
+        #dsm: ['7.0','7.1','7.2','7.3']
         dsm: ['7.0']
 
     steps:
@@ -31,6 +31,19 @@ jobs:
             echo "new_tag=$latest_tag" >> $GITHUB_OUTPUT
           fi
 
+      - name: Determine DSM suffix
+        id: dsm_suffix
+        run: |
+          # Count how many DSM versions are in the matrix
+          dsm_list='${{ toJSON(matrix.dsm) }}'
+          count=$(echo "$dsm_list" | jq 'if type == "array" then length else 1 end')
+          current="${{ matrix.dsm }}"
+          if [ "$count" -eq 1 ] && [ "$current" = "7.0" ]; then
+            echo "suffix=DSM-7.x" >> $GITHUB_OUTPUT
+          else
+            echo "suffix=DSM-${current}" >> $GITHUB_OUTPUT
+          fi
+
       - name: Synology Package Builder Github Action
         uses: tomgrv/synology-package-builder@v1.3.0
         with:
@@ -43,15 +56,14 @@ jobs:
           ls -l ./dist
           rm ./dist/*_debug.spk
           for f in ./dist/*.spk; do
-            mv "$f" "${f%.spk}-${{ matrix.dsm }}.spk"
+            mv "$f" "./dist/Synospeedtest-x86_64-${{ steps.get_latest_tag.outputs.new_tag }}-${{ steps.dsm_suffix.outputs.suffix }}.spk"
           done
           ls -l ./dist
 
       - name: Upload Package
         uses: actions/upload-artifact@v4
         with:
-          #name: SynoSpeedtest-${{ matrix.dsm }}  # uncomment if matrix contains more than 1 arch or 1 DSM version
-          name: SynoSpeedtest-x86_64-DSM-7.x  # comment if matrix contains more than 1 arch or 1 DSM version
+          name: SynoSpeedtest-${{ steps.dsm_suffix.outputs.suffix }}
           path: ./dist/*.spk
 
       - name: Release
