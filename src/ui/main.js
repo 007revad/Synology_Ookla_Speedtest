@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     if (infoObj.PKG_VERSION) {
                         document.querySelector('.header h1').innerHTML =
-                            `Synology Ookla Speedtest <span style="font-size:0.6em; font-weight:normal; opacity:0.85;">&nbsp; v${infoObj.PKG_VERSION}</span>`;
+                            `Syno Ookla Speedtest <span style="font-size:0.6em; font-weight:normal; opacity:0.85;">&nbsp; v${infoObj.PKG_VERSION}</span>`;
                     }
                     systemInfo.innerHTML = `
                         <strong>MODEL:</strong> <span>${infoObj.MODEL || 'N/A'}</span>

@@ -27,6 +27,39 @@ else
     log_message "Warning: Failed to create web interface symlink"
 fi
 
+# Create symbolic link for armv71
+if ln -sf armhf "/var/packages/$PKG_NAME/target/bin/armv71" 2>/dev/null; then
+    log_message "Created armv71 symlink to armhf"
+else
+    log_message "Warning: Failed to create armv71 symlink to armhf"
+fi
+# Create symbolic link for armv7  # Probably not needed for Synology NAS
+if ln -sf armhf "/var/packages/$PKG_NAME/target/bin/armv7" 2>/dev/null; then
+    log_message "Created armv7 symlink to armhf"
+else
+    log_message "Warning: Failed to create armv7 symlink to armhf"
+fi
+
+# Create symbolic link for armv5tel
+if ln -sf armel "/var/packages/$PKG_NAME/target/bin/armv5tel" 2>/dev/null; then
+    log_message "Created armv5tel symlink to armel"
+else
+    log_message "Warning: Failed to create armv5tel symlink to armel"
+fi
+# Create symbolic link for armv5  # Probably not needed for Synology NAS
+if ln -sf armel "/var/packages/$PKG_NAME/target/bin/armv5" 2>/dev/null; then
+    log_message "Created armv5 symlink to armel"
+else
+    log_message "Warning: Failed to create armv5 symlink to armel"
+fi
+
+# Create symbolic link for i686
+if ln -sf i386 "/var/packages/$PKG_NAME/target/bin/i686" 2>/dev/null; then
+    log_message "Created i686 symlink to i386"
+else
+    log_message "Warning: Failed to create i686 symlink to i386"
+fi
+
 # Create result directory in webman (for static file serving)
 RESULT_DIR="/usr/syno/synoman/webman/3rdparty/$PKG_NAME/result"
 if mkdir -p "$RESULT_DIR"; then
