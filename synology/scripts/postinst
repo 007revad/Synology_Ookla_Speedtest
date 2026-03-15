@@ -94,7 +94,7 @@ if [ -f "$GENERATE_SCRIPT" ]; then
     log_message "Started initial speedtest result generation"
 fi
 
-# Synology Ookla Speedtest sudoers configuration
+# Syno Ookla Speedtest sudoers configuration
 # Configure sudoers for web UI scripts
 #SUDOERS_FILE="/etc/sudoers.d/Synospeedtest"
 #cat << 'EOF' | sudo tee "$SUDOERS_FILE" >/dev/null
