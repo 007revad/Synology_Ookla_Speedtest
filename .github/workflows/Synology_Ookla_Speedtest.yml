@@ -57,7 +57,7 @@ jobs:
             [[ "$f" == *_debug.spk ]] && continue
             tmpdir=$(mktemp -d)
             tar -xf "$f" -C "$tmpdir" INFO
-            APPID=$(jq -r '.[] | keys[]' ui/config)
+            APPID=$(jq -r '.[] | keys[]' src/ui/config)
             if ! grep -q "dsmappname" "$tmpdir/INFO"; then
               sed -i "s/dsmuidir=\"ui\"/dsmuidir=\"ui\"\ndsmappname=\"$APPID\"/" "$tmpdir/INFO"
               tar --update -f "$f" -C "$tmpdir" INFO
