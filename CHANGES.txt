@@ -1,7 +1,7 @@
 v1.0.12
 - Added support for Synology models with Realtek, Marvell, Annapurna, STM and Mindspeed CPUs.
   - Download the noarch spk file.
-- Changed to show "Syno Ookla Speedtest" instead of "Synology Ookla Speedtest" to it's mistaken as an offical Synology package.
+- Changed to show "Syno Ookla Speedtest" instead of "Synology Ookla Speedtest" so it's not mistaken as an official Synology package.
 
 v1.0.11
 - Added instructions on setting the permissions required by the package.
