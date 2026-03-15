@@ -4,7 +4,7 @@
       "type"       : "url",
       "icon"       : "images/icon_256.png",
       "title"      : "Syno Ookla Speedtest",
-      "desc"       : "Syno Ookla Speedtest GUI",
+      "desc"       : "Ookla Speedtest GUI for Synology NAS",
       "url"        : "webman/3rdparty/Synospeedtest/index.html",        
       "width"      : 800,
       "height"     : 600,

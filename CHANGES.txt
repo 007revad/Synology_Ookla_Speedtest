@@ -1,3 +1,7 @@
+v1.0.13
+- Changed to show the Open button in Package Center.
+- Improved install logging.
+
 v1.0.12
 - Added support for Synology models with Realtek, Marvell, Annapurna, STM and Mindspeed CPUs.
   - Download the noarch spk file.

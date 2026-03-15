@@ -16,7 +16,7 @@ log_message "Post-installation starting for package: $PKG_NAME"
 if mkdir -p "$VAR_DIR"; then
     log_message "VAR_DIR created or already exists: $VAR_DIR"
 else
-    log_message "Failed to create VAR_DIR: $VAR_DIR"
+    log_message "Error: Failed to create VAR_DIR: $VAR_DIR"
     exit 1
 fi
 
@@ -25,6 +25,7 @@ if ln -sf "/var/packages/$PKG_NAME/target/ui" "/usr/syno/synoman/webman/3rdparty
     log_message "Created web interface symlink"
 else
     log_message "Warning: Failed to create web interface symlink"
+    ERRORS="1"
 fi
 
 # Create symbolic link for armv71
@@ -32,12 +33,14 @@ if ln -sf armhf "/var/packages/$PKG_NAME/target/bin/armv71" 2>/dev/null; then
     log_message "Created armv71 symlink to armhf"
 else
     log_message "Warning: Failed to create armv71 symlink to armhf"
+    ERRORS="1"
 fi
 # Create symbolic link for armv7  # Probably not needed for Synology NAS
 if ln -sf armhf "/var/packages/$PKG_NAME/target/bin/armv7" 2>/dev/null; then
     log_message "Created armv7 symlink to armhf"
 else
     log_message "Warning: Failed to create armv7 symlink to armhf"
+    ERRORS="1"
 fi
 
 # Create symbolic link for armv5tel
@@ -45,12 +48,14 @@ if ln -sf armel "/var/packages/$PKG_NAME/target/bin/armv5tel" 2>/dev/null; then
     log_message "Created armv5tel symlink to armel"
 else
     log_message "Warning: Failed to create armv5tel symlink to armel"
+    ERRORS="1"
 fi
 # Create symbolic link for armv5  # Probably not needed for Synology NAS
 if ln -sf armel "/var/packages/$PKG_NAME/target/bin/armv5" 2>/dev/null; then
     log_message "Created armv5 symlink to armel"
 else
     log_message "Warning: Failed to create armv5 symlink to armel"
+    ERRORS="1"
 fi
 
 # Create symbolic link for i686
@@ -58,6 +63,7 @@ if ln -sf i386 "/var/packages/$PKG_NAME/target/bin/i686" 2>/dev/null; then
     log_message "Created i686 symlink to i386"
 else
     log_message "Warning: Failed to create i686 symlink to i386"
+    ERRORS="1"
 fi
 
 # Create result directory in webman (for static file serving)
@@ -66,7 +72,8 @@ if mkdir -p "$RESULT_DIR"; then
     log_message "Created result directory: $RESULT_DIR"
     chmod 755 "$RESULT_DIR"
 else
-    log_message "Failed to create result directory: $RESULT_DIR"
+    log_message "Warning: Failed to create result directory: $RESULT_DIR"
+    ERRORS="1"
 fi
 
 # Set execute permissions for scripts
@@ -87,22 +94,20 @@ chmod +x "$BIN_DIR/x86_64/speedtest" 2>/dev/null
 chmod +x "$UI_DIR/api.cgi" 2>/dev/null
 log_message "Set execute permissions for api.cgi"
 
-# Generate initial speedtest result
-GENERATE_SCRIPT="$BIN_DIR/generate_speed_result.sh"
-if [ -f "$GENERATE_SCRIPT" ]; then
-    "$GENERATE_SCRIPT" 2>/dev/null &
-    log_message "Started initial speedtest result generation"
-fi
-
 # Syno Ookla Speedtest sudoers configuration
 # Configure sudoers for web UI scripts
 #SUDOERS_FILE="/etc/sudoers.d/Synospeedtest"
 #cat << 'EOF' | sudo tee "$SUDOERS_FILE" >/dev/null
 #Synospeedtest ALL=(ALL) NOPASSWD: ALL
 #EOF
+#
+#sudo chmod 0440 "$SUDOERS_FILE"
+#log_message "Sudoers file created and permissions set: $SUDOERS_FILE"
 
-sudo chmod 0440 "$SUDOERS_FILE"
-log_message "Sudoers file created and permissions set: $SUDOERS_FILE"
-
-log_message "Post-installation completed successfully"
+if [ -z "$ERRORS" ]; then
+    log_message "Post-installation completed successfully"
+else
+    log_message "Post-installation completed with warnings"
+fi
+echo >> "$VAR_DIR/install.log"
 exit 0
