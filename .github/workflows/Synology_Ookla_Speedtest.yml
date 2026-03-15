@@ -60,6 +60,21 @@ jobs:
           done
           ls -l ./dist
 
+      - name: Create noarch package
+        run: |
+          for f in ./dist/Synospeedtest-x86_64-*.spk; do
+            noarch="${f/x86_64/noarch}"
+            cp "$f" "$noarch"
+            # Extract INFO from the spk (tar), patch it, repack it
+            tmpdir=$(mktemp -d)
+            tar -xf "$noarch" -C "$tmpdir" INFO
+            sed -i 's/arch="x86_64"/arch="noarch"/' "$tmpdir/INFO"
+            # Replace INFO inside the spk without re-extracting the whole archive
+            tar --update -f "$noarch" -C "$tmpdir" INFO
+            rm -rf "$tmpdir"
+          done
+          ls -l ./dist
+
       - name: Upload Package
         uses: actions/upload-artifact@v4
         with:
