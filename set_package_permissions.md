@@ -11,6 +11,7 @@
     file=/etc/sudoers.d/Synospeedtest
     echo "Synospeedtest ALL=(ALL) NOPASSWD: ALL" > "$file"
     chmod 0440 "$file"
+    cat "$file"
     ```
 8. Click **OK** to save the settings.
 9. Click on the task - but **don't** enable it - then click **Run**.
