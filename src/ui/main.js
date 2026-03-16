@@ -148,7 +148,21 @@ document.addEventListener('DOMContentLoaded', () => {
                     const errText = (response.result && response.result.trim())
                         ? response.result.trim()
                         : response.message;
-                    output.textContent = errText;
+                    // Render error as HTML with clickable links
+                    const errHtml = errText
+                        .split('\n')
+                        .map(line => {
+                            const urlMatch = line.match(/^(See )?(https?:\/\/\S+)$/);
+                            if (urlMatch) {
+                                const prefix = urlMatch[1] || '';
+                                const url = urlMatch[2];
+                                return `${prefix}<a href="${url}" target="_blank" rel="noopener">${url}</a>`;
+                            }
+                            return line.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                        })
+                        .join('\n');
+                    // output.innerHTML = `<pre>${errHtml}</pre>`;
+                    output.innerHTML = errHtml.replace(/\n/g, '<br>');
                     toggleBtn.style.display = 'none';
                 }
             })

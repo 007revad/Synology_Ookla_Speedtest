@@ -1,3 +1,8 @@
+v1.0.16
+- Changed to show errors and information in a proportional font.
+  - Still shows speedtest text output in a monspace font.
+- Changed so if sudoers permissions are not set it shows link to the set_package_permissions.md GitHub page.
+
 v1.0.15
 - Fix dodgy characters returned by `cat /proc/sys/kernel/syno_hw_version` after some NAS model numbers like:
   - DS1817+-j instead of DS1817+

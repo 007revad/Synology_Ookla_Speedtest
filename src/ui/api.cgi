@@ -206,11 +206,15 @@ run)
                 json_response true "Speedtest script output" "$SPEED_RESULT"
             else
                 LAST_ERROR=$(python3 -c "
-import json, sys
+import json, sys, re
 try:
     with open('${TMP_STDERR}') as f:
         lines = f.readlines()[-20:]
     text = ''.join(lines)[:2000].strip()
+    text = re.sub(r'  This incident will be reported\.', '', text)
+    text = text.rstrip()
+    if 'not in the sudoers file' in text:
+        text += '\n\nSee https://github.com/007revad/Synology_Ookla_Speedtest/blob/main/set_package_permissions.md'
 except Exception:
     text = ''
 print(json.dumps(text if text else 'Unknown error or no error output'))
@@ -269,11 +273,15 @@ print(json.dumps(text if text else 'Unknown error or no error output'))
                 echo "{\"success\":true, \"message\":${MSG_JSON}, \"result\":${DATA_JSON}, \"result_url\":${RESULT_URL_JSON}}"
             else
                 LAST_ERROR=$(python3 -c "
-import json, sys
+import json, sys, re
 try:
     with open('${TMP_STDERR}') as f:
         lines = f.readlines()[-20:]
     text = ''.join(lines)[:2000].strip()
+    text = re.sub(r'  This incident will be reported\.', '', text)
+    text = text.rstrip()
+    if 'not in the sudoers file' in text:
+        text += '\n\nSee https://github.com/007revad/Synology_Ookla_Speedtest/blob/main/set_package_permissions.md'
 except Exception:
     text = ''
 print(json.dumps(text if text else 'Unknown error or no error output'))
