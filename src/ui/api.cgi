@@ -157,9 +157,27 @@ info)
     ;;
 
 servers)
-    #"${SERVERS_SCRIPT}" > "${SERVERS_FILE}" 2>&1
-    sudo -u Synospeedtest "${SERVERS_SCRIPT}" 2>&1
-    echo '{"success":true,"message":"Server list updated"}'
+    # Run servers.sh and wait for it to finish (no & = foreground, no timeout race).
+    # Redirect stdout+stderr away from the HTTP response body so nothing
+    # pollutes the JSON we echo below.  servers.sh writes its own output to
+    # SERVERS_FILE directly, so we only need to suppress noise here.
+    # Use a generous timeout for slow ARM devices.
+    log "[DEBUG] Fetching server list"
+    timeout 120 sudo -u Synospeedtest "${SERVERS_SCRIPT}" > /dev/null 2>&1
+    RET=$?
+    if [ $RET -eq 124 ]; then
+        log "[ERROR] servers.sh timed out after 120s"
+        echo '{"success":false,"message":"Server list fetch timed out"}'
+    elif [ $RET -ne 0 ]; then
+        log "[ERROR] servers.sh failed with exit code $RET"
+        echo '{"success":false,"message":"Server list fetch failed"}'
+    elif [ -s "${SERVERS_FILE}" ]; then
+        log "[DEBUG] Server list updated successfully"
+        echo '{"success":true,"message":"Server list updated"}'
+    else
+        log "[ERROR] servers.sh completed but servers.list is empty"
+        echo '{"success":false,"message":"Server list empty after fetch"}'
+    fi
     ;;
 
 getservers)
@@ -238,7 +256,8 @@ print(json.dumps(text if text else 'Unknown error or no error output'))
     
             if [ -n "$OPTION" ]; then
                 timeout 240 sudo -u Synospeedtest "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
-            elif [[ "$ID" =~ ^[0-9]? ]]; then
+            elif [[ "$ID" =~ ^[0-9]+$ ]]; then
+                # Only pass ID when it is a non-empty string of digits
                 timeout 240 sudo -u Synospeedtest "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
             else
                 timeout 240 sudo -u Synospeedtest "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
@@ -251,16 +270,19 @@ print(json.dumps(text if text else 'Unknown error or no error output'))
                     break
                 fi
                 if ! kill -0 $CMD_PID 2>/dev/null; then
+                    # Process exited - give it a moment to flush output then stop waiting
+                    sleep 2
                     break
                 fi
                 sleep 1
                 i=$((i+1))
             done
     
+            # Reap the child (no-op if already gone)
             if kill -0 $CMD_PID 2>/dev/null; then
                 kill $CMD_PID 2>/dev/null
-                wait $CMD_PID 2>/dev/null
             fi
+            wait $CMD_PID 2>/dev/null
     
             if grep -q "Result URL" "$TMP_RESULT" 2>/dev/null; then
                 mv "$TMP_RESULT" "${RESULT_FILE}"

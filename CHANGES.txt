@@ -1,3 +1,11 @@
+v1.0.18
+- Improved to not timeout on slow Synology NAS.
+- Added logging for fetching server list:
+  - "Server list updated"
+  - "Server list empty after fetch"
+  - "Server list fetch timed out"
+  - "Server list fetch failed"
+
 v1.0.17
 - Changed workflow to correctly create noarch package.
 
