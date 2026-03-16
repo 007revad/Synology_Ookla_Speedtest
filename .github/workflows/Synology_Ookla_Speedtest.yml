@@ -56,12 +56,12 @@ jobs:
           for f in ./dist/*.spk; do
             [[ "$f" == *_debug.spk ]] && continue
             tmpdir=$(mktemp -d)
-            tar -xf "$f" -C "$tmpdir" INFO
+            tar -xf "$f" -C "$tmpdir"
             APPID=$(jq -r '.[] | keys[]' src/ui/config)
             if ! grep -q "dsmappname" "$tmpdir/INFO"; then
               sed -i "s/dsmuidir=\"ui\"/dsmuidir=\"ui\"\ndsmappname=\"$APPID\"/" "$tmpdir/INFO"
-              tar --update -f "$f" -C "$tmpdir" INFO
             fi
+            tar -cf "$f" -C "$tmpdir" .
             rm -rf "$tmpdir"
           done
 
@@ -78,13 +78,10 @@ jobs:
         run: |
           for f in ./dist/Synospeedtest-x86_64-*.spk; do
             noarch="${f/x86_64/noarch}"
-            cp "$f" "$noarch"
-            # Extract INFO from the spk (tar), patch it, repack it
             tmpdir=$(mktemp -d)
-            tar -xf "$noarch" -C "$tmpdir" INFO
+            tar -xf "$f" -C "$tmpdir"
             sed -i 's/arch="x86_64"/arch="noarch"/' "$tmpdir/INFO"
-            # Replace INFO inside the spk without re-extracting the whole archive
-            tar --update -f "$noarch" -C "$tmpdir" INFO
+            tar -cf "$noarch" -C "$tmpdir" .
             rm -rf "$tmpdir"
           done
           ls -l ./dist
