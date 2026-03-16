@@ -113,6 +113,13 @@ get_system_info() {
     productversion="$(/bin/get_key_value /etc.defaults/VERSION productversion 2>/dev/null || echo '')"
     build="$(/bin/get_key_value /etc.defaults/VERSION buildnumber 2>/dev/null || echo '')"
 
+    # Fix dodgy characters after model number
+    if [[ "${model,,}" =~ 'pv10-j'$ ]]; then
+        model=${model%??????}+          # replace last 6 chars with +
+    elif [[ "${model,,}" =~ '-j'$ ]]; then
+        model=${model%??}               # remove last 2 chars
+    fi
+
     if [ -n "$productversion" ] && [ -n "$build" ]; then
         version="${productversion}-${build}"
     else

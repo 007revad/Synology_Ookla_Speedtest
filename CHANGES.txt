@@ -1,3 +1,10 @@
+v1.0.15
+- Fix dodgy characters returned by `cat /proc/sys/kernel/syno_hw_version` after some NAS model numbers like:
+  - DS1817+-j instead of DS1817+
+  - DS215+-j instead of DS215+
+  - DS116-j instead of DS116
+  - DS213pv10-j instead of DS213+
+
 v1.0.14
 - Changed to show the Open button in Package Center.
 - Improved install logging.
