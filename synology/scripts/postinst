@@ -28,11 +28,11 @@ else
     ERRORS="1"
 fi
 
-# Create symbolic link for armv71
-if ln -sf armhf "/var/packages/$PKG_NAME/target/bin/armv71" 2>/dev/null; then
-    log_message "Created armv71 symlink to armhf"
+# Create symbolic link for armv7l (seven el not seven one)
+if ln -sf armhf "/var/packages/$PKG_NAME/target/bin/armv7l" 2>/dev/null; then
+    log_message "Created armv7l symlink to armhf"
 else
-    log_message "Warning: Failed to create armv71 symlink to armhf"
+    log_message "Warning: Failed to create armv7l symlink to armhf"
     ERRORS="1"
 fi
 # Create symbolic link for armv7  # Probably not needed for Synology NAS

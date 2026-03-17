@@ -181,8 +181,8 @@ servers)
     # Use a generous timeout for slow ARM devices.
     log "[DEBUG] Fetching server list"
 
-    raw_output=$(timeout 120 "${BIN_DIR}/${ARCH}/speedtest" --servers \
-        --accept-license --accept-gdpr 2>"${SVR_STDERR}")
+    raw_output=$(timeout 120 env HOME=/var/packages/Synospeedtest/home "${BIN_DIR}/${ARCH}/speedtest" \
+        --servers --accept-license --accept-gdpr 2>"${SVR_STDERR}")
     RET=${PIPESTATUS[0]}
     output=$(echo "$raw_output" | tail -n +5)
 
@@ -254,11 +254,14 @@ run)
             rm -f "$TMP_RESULT" "$TMP_STDERR"
     
             if [ -n "$OPTION" ]; then
+                #timeout 240 sudo -u Synospeedtest env HOME=/var/packages/Synospeedtest/home "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 timeout 240 sudo -u Synospeedtest "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
             elif [[ "$ID" =~ ^[0-9]+$ ]]; then
                 # Only pass ID when it is a non-empty string of digits
+                #timeout 240 sudo -u Synospeedtest env HOME=/var/packages/Synospeedtest/home "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 timeout 240 sudo -u Synospeedtest "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
             else
+                #timeout 240 sudo -u Synospeedtest env HOME=/var/packages/Synospeedtest/home "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 timeout 240 sudo -u Synospeedtest "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
             fi
             CMD_PID=$!

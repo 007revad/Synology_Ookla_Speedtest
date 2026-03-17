@@ -1,3 +1,7 @@
+v1.0.20
+- Bug fix for "Could not load server list" not appearing in server list if list is empty.
+- Bug fix for armv7l.
+
 v1.0.19
 - Added more debug logging and improved existing logging.
 - Added "--accept-license --accept-gdpr" to "speedtest --servers" command.

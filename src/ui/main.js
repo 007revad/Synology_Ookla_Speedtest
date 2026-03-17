@@ -187,11 +187,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         try {
             // Run servers.sh to populate servers.list first
-            await callAPI('servers');
+            const serversResponse = await callAPI('servers');
+            if (!serversResponse.success) {
+                throw new Error(serversResponse.message || 'Failed to fetch server list');
+            }
 
             const data = await callAPI('getservers');
+
             // Remove placeholder
-            select.removeChild(loading);
+            if (select.contains(loading)) select.removeChild(loading);
+            if (!data.success) throw new Error(data.message);
 
             if (!data.success) throw new Error(data.message);
 
@@ -213,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (err) {
             console.error('Failed to load servers:', err);
-            select.removeChild(loading);
+            if (select.contains(loading)) select.removeChild(loading);
             const option = document.createElement('option');
             option.disabled = true;
             option.textContent = '⚠ Could not load server list';
