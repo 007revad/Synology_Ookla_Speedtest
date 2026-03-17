@@ -4,7 +4,6 @@
 #
 # Requirements:
 #   - GNU bash (does not work in BusyBox)
-#   - Docker must be installed and running
 #   - Script must be run as sudo or root
 #--------------------------------------------------------------------------
 # Ookla speedtest-cli options 

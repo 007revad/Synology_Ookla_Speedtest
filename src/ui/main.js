@@ -226,5 +226,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Load dropdown list with local servers
     loadServers();
+
+    // Log page open/refresh in api.log
+    callAPI('init');
 });
 

@@ -26,6 +26,17 @@ touch "${LOG_FILE}"
 chmod 644 "${LOG_FILE}"
 chmod 755 "${RESULT_DIR}"
 
+touch "${SERVERS_FILE}"
+chmod 644 "${SERVERS_FILE}"
+#chown Synospeedtest:Synospeedtest "${SERVERS_FILE}"
+
+SVR_STDERR="${LOG_DIR}/last_servers_stderr.log"
+touch "${SVR_STDERR}"
+chmod 644 "${SVR_STDERR}"
+#chown Synospeedtest:Synospeedtest "${SVR_STDERR}"
+
+ARCH="$(uname -m)"
+
 log() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "${LOG_FILE}"
 }
@@ -150,6 +161,12 @@ print(json.dumps({
 # --------- 8. Action processing ---------------------------------
 
 case "${ACTION}" in
+init)
+    log "----------------------------------------"
+    log "Web UI opened/refreshed"
+    echo '{"success":true,"message":"init"}'
+    ;;
+
 info)
     log "[DEBUG] Getting system information"
     DATA="$(get_system_info)"
@@ -163,19 +180,42 @@ servers)
     # SERVERS_FILE directly, so we only need to suppress noise here.
     # Use a generous timeout for slow ARM devices.
     log "[DEBUG] Fetching server list"
-    timeout 120 sudo -u Synospeedtest "${SERVERS_SCRIPT}" > /dev/null 2>&1
-    RET=$?
+
+    raw_output=$(timeout 120 "${BIN_DIR}/${ARCH}/speedtest" --servers \
+        --accept-license --accept-gdpr 2>"${SVR_STDERR}")
+    RET=${PIPESTATUS[0]}
+    output=$(echo "$raw_output" | tail -n +5)
+
+    # Always log raw output and stderr for debugging (especially armv7l)
+    log "[DEBUG] speedtest exit code: ${RET}"
+    log "[DEBUG] raw output (all $(echo "$raw_output" | wc -l) lines):"
+    while IFS= read -r line; do
+        log "[DEBUG] raw: ${line}"
+    done <<< "$raw_output"
+    if [ -s "${SVR_STDERR}" ]; then
+        while IFS= read -r line; do
+            log "[DEBUG] stderr: ${line}"
+        done < "${SVR_STDERR}"
+    else
+        log "[DEBUG] stderr: (empty)"
+    fi
+
+    echo "$output" > "${SERVERS_FILE}"
+
     if [ $RET -eq 124 ]; then
-        log "[ERROR] servers.sh timed out after 120s"
+        log "[ERROR] 'speedtest --servers' timed out after 120s"
         echo '{"success":false,"message":"Server list fetch timed out"}'
     elif [ $RET -ne 0 ]; then
-        log "[ERROR] servers.sh failed with exit code $RET"
+        log "[ERROR] 'speedtest --servers' failed with exit code $RET"
+        #while IFS= read -r line; do
+        #    log "[ERROR] stderr: ${line}"
+        #done < "${SVR_STDERR}"
         echo '{"success":false,"message":"Server list fetch failed"}'
     elif [ -s "${SERVERS_FILE}" ]; then
         log "[DEBUG] Server list updated successfully"
         echo '{"success":true,"message":"Server list updated"}'
     else
-        log "[ERROR] servers.sh completed but servers.list is empty"
+        log "[ERROR] 'speedtest --servers' completed but servers.list is empty"
         echo '{"success":false,"message":"Server list empty after fetch"}'
     fi
     ;;
@@ -201,48 +241,7 @@ run)
     fi
     
     case "${OPTION}" in
-        "-v"|"-h")
-            # Run immediately without waiting for Finished + output
-            if [ ! -x "${SPEED_SCRIPT}" ]; then
-                json_response false "Speedtest script not found or not executable" ""
-                log "[ERROR] Speedtest script not found or not executable"
-                exit 0
-            fi
-    
-            TMP_RESULT="${RESULT_FILE}.tmp"
-            TMP_STDERR="${LOG_DIR}/last_speedtest_stderr.log"
-            rm -f "$TMP_RESULT" "$TMP_STDERR"
-    
-            timeout 30 sudo -u Synospeedtest "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR"
-            sleep 0.3  # Wait about 300ms
-            RET=$?
-    
-            if [ $RET -eq 0 ] && [ -s "$TMP_RESULT" ]; then
-                mv "$TMP_RESULT" "${RESULT_FILE}"
-                chmod 644 "${RESULT_FILE}"
-                SPEED_RESULT="$(cat "${RESULT_FILE}")"
-                json_response true "Speedtest script output" "$SPEED_RESULT"
-            else
-                LAST_ERROR=$(python3 -c "
-import json, sys, re
-try:
-    with open('${TMP_STDERR}') as f:
-        lines = f.readlines()[-20:]
-    text = ''.join(lines)[:2000].strip()
-    text = re.sub(r'  This incident will be reported\.', '', text)
-    text = text.rstrip()
-    if 'not in the sudoers file' in text:
-        text += '\n\nSee https://github.com/007revad/Synology_Ookla_Speedtest/blob/main/set_package_permissions.md'
-except Exception:
-    text = ''
-print(json.dumps(text if text else 'Unknown error or no error output'))
-")
-                MSG_JSON=$(echo "Speedtest script failed" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
-                echo "{\"success\":false, \"message\":${MSG_JSON}, \"result\":${LAST_ERROR}}"
-                log "[ERROR] Speedtest script failed"
-            fi
-            ;;
-        ""|"-a"|"-i")
+        "")
             # Existing Finished waiting loop method
             if [ ! -x "${SPEED_SCRIPT}" ]; then
                 json_response false "Speedtest script not found or not executable" ""
@@ -310,7 +309,12 @@ print(json.dumps(text if text else 'Unknown error or no error output'))
 ")
                 MSG_JSON=$(echo "Speed Test failed" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
                 echo "{\"success\":false, \"message\":${MSG_JSON}, \"result\":${LAST_ERROR}}"
-                log "[ERROR] Speed Test failed"
+                if [ -n "${LAST_ERROR}" ]; then
+                    log "[ERROR] Speed Test failed:"
+                    log "[ERROR] ${LAST_ERROR}"
+                else
+                    log "[ERROR] Speed Test failed"
+                fi
             fi
             ;;
         *)

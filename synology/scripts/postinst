@@ -79,7 +79,7 @@ fi
 # Set execute permissions for scripts
 BIN_DIR="$TARGET_DIR/bin"
 chmod +x "$BIN_DIR/speedtest.sh" 2>/dev/null
-chmod +x "$BIN_DIR/servers.sh" 2>/dev/null
+#chmod +x "$BIN_DIR/servers.sh" 2>/dev/null
 #chmod +x "$BIN_DIR/generate_speedtest_result.sh" 2>/dev/null
 
 # Set execute permissions for speedtest binaries
