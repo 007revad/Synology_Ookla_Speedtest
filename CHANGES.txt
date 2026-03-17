@@ -1,3 +1,7 @@
+v1.0.19
+- Added more debug logging and improved existing logging.
+- Added "--accept-license --accept-gdpr" to "speedtest --servers" command.
+
 v1.0.18
 - Improved to not timeout on slow Synology NAS.
 - Added logging for fetching server list:
