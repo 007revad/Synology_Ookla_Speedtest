@@ -1,0 +1,10 @@
+/var/packages/Synospeedtest/var/api.log {
+    size 10K
+    weekly
+    rotate 3
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+}

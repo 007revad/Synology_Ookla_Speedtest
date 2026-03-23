@@ -15,7 +15,7 @@ id=
 
 #--------------------------------------------------------------------------
 
-scriptname=speedtest_internet
+scriptname=speedtest
 
 if [[ -z "$id" && -n "$1" ]]; then
     id="$1"
@@ -24,7 +24,7 @@ fi
 arch="$(uname -m)"
 
 is_schedule_running(){ 
-    # $1 is script's filename. e.g. syno_hdd_db.sh etc
+    # $1 is script's filename. e.g. speedtest.sh etc
     local file="/usr/syno/etc/esynoscheduler/esynoscheduler.db"
     local rows offset task status pid result
 

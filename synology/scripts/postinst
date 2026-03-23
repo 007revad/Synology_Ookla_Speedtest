@@ -104,6 +104,14 @@ log_message "Set execute permissions for api.cgi"
 #sudo chmod 0440 "$SUDOERS_FILE"
 #log_message "Sudoers file created and permissions set: $SUDOERS_FILE"
 
+# Setup api.log rotation
+if mv -p "$UI_DIR/logrotate" /etc/logrotate.d/synospeedtest; then
+    log_message "Copied logrotate to /etc/logrotate.d/synospeedtest"
+    chmod 644 /etc/logrotate.d/synospeedtest
+else
+    log_message "Failed to copy logrotate to /etc/logrotate.d/synospeedtest"
+fi
+
 if [ -z "$ERRORS" ]; then
     log_message "Post-installation completed successfully"
 else

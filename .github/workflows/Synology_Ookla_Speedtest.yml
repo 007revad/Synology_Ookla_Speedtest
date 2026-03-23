@@ -27,7 +27,18 @@ jobs:
           if [ "${{ github.event_name }}" = "release" ]; then
             echo "new_tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
           else
-            latest_tag=$(curl -s https://api.github.com/repos/007revad/Synology_Ookla_Speedtest/releases/latest | jq -r .tag_name)
+            # /releases/latest skips pre-releases, so fall back to /releases
+            # and take the first one (most recent by creation date)
+            latest_tag=$(curl -s https://api.github.com/repos/007revad/Synology_Ookla_Speedtest/releases/latest \
+              | jq -r '.tag_name // empty')
+            if [ -z "$latest_tag" ]; then
+              latest_tag=$(curl -s "https://api.github.com/repos/007revad/Synology_Ookla_Speedtest/releases?per_page=1" \
+                | jq -r '.[0].tag_name // empty')
+            fi
+            if [ -z "$latest_tag" ]; then
+              echo "ERROR: Could not determine release tag" >&2
+              exit 1
+            fi
             echo "new_tag=$latest_tag" >> $GITHUB_OUTPUT
           fi
 
