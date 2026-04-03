@@ -27,14 +27,9 @@ jobs:
           if [ "${{ github.event_name }}" = "release" ]; then
             echo "new_tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
           else
-            # /releases/latest skips pre-releases, so fall back to /releases
-            # and take the first one (most recent by creation date)
-            latest_tag=$(curl -s https://api.github.com/repos/007revad/Synology_Ookla_Speedtest/releases/latest \
-              | jq -r '.tag_name // empty')
-            if [ -z "$latest_tag" ]; then
-              latest_tag=$(curl -s "https://api.github.com/repos/007revad/Synology_Ookla_Speedtest/releases?per_page=1" \
-                | jq -r '.[0].tag_name // empty')
-            fi
+            # Get most recent release including pre-releases
+            latest_tag=$(curl -s "https://api.github.com/repos/007revad/Synology_Open_Speedtest/releases?per_page=1" \
+              | jq -r '.[0].tag_name // empty')
             if [ -z "$latest_tag" ]; then
               echo "ERROR: Could not determine release tag" >&2
               exit 1
@@ -55,26 +50,20 @@ jobs:
             echo "suffix=DSM-${current}" >> $GITHUB_OUTPUT
           fi
 
+      - name: Check if SPKs already exist in release
+        id: check_assets
+        run: |
+          existing=$(curl -s "https://api.github.com/repos/007revad/Synology_Open_Speedtest/releases/tags/${{ steps.get_latest_tag.outputs.new_tag }}" \
+            | jq -r '.assets[].name' | grep -c '\.spk' || true)
+          echo "spk_count=$existing" >> $GITHUB_OUTPUT
+
       - name: Synology Package Builder Github Action
-        uses: tomgrv/synology-package-builder@v1.3.0
+        #uses: tomgrv/synology-package-builder@v1.3.0
+        uses: 007revad/synology-package-builder@main
         with:
           dsm: ${{ matrix.dsm }}
           arch: ${{ matrix.arch }}
           output: ./dist
-
-      - name: Add dsmappname to INFO
-        run: |
-          for f in ./dist/*.spk; do
-            [[ "$f" == *_debug.spk ]] && continue
-            tmpdir=$(mktemp -d)
-            tar -xf "$f" -C "$tmpdir"
-            APPID=$(jq -r '.[] | keys[]' src/ui/config)
-            if ! grep -q "dsmappname" "$tmpdir/INFO"; then
-              sed -i "s/dsmuidir=\"ui\"/dsmuidir=\"ui\"\ndsmappname=\"$APPID\"/" "$tmpdir/INFO"
-            fi
-            tar -cf "$f" -C "$tmpdir" $(ls "$tmpdir")
-            rm -rf "$tmpdir"
-          done
 
       - name: Remove debug spk and rename package
         run: |
@@ -108,5 +97,6 @@ jobs:
         with:
           tag_name: ${{ steps.get_latest_tag.outputs.new_tag }}
           make_latest: false
+          fail_on_unmatched_files: false
           files: |
             ./dist/*.spk
