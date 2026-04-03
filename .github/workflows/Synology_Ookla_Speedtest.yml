@@ -28,7 +28,7 @@ jobs:
             echo "new_tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
           else
             # Get most recent release including pre-releases
-            latest_tag=$(curl -s "https://api.github.com/repos/007revad/Synology_Open_Speedtest/releases?per_page=1" \
+            latest_tag=$(curl -s "https://api.github.com/repos/007revad/Synology_Ookla_Speedtest/releases?per_page=1" \
               | jq -r '.[0].tag_name // empty')
             if [ -z "$latest_tag" ]; then
               echo "ERROR: Could not determine release tag" >&2
@@ -53,7 +53,7 @@ jobs:
       - name: Check if SPKs already exist in release
         id: check_assets
         run: |
-          existing=$(curl -s "https://api.github.com/repos/007revad/Synology_Open_Speedtest/releases/tags/${{ steps.get_latest_tag.outputs.new_tag }}" \
+          existing=$(curl -s "https://api.github.com/repos/007revad/Synology_Ookla_Speedtest/releases/tags/${{ steps.get_latest_tag.outputs.new_tag }}" \
             | jq -r '.assets[].name' | grep -c '\.spk' || true)
           echo "spk_count=$existing" >> $GITHUB_OUTPUT
 
