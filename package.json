@@ -14,7 +14,7 @@
   "synology": {
     "maintainer": "007revad",
     "maintainer_url": "https://github.com/007revad",
-    "distributor": "https://github.com/007revad/Synology_Ookla_Speedtest/releases",
+    "distributor": "https://github.com/007revad/Synology_Ookla_Speedtest",
     "distributor_url": "https://github.com/007revad/Synology_Ookla_Speedtest/releases",
     "support_url": "https://github.com/007revad/Synology_Ookla_Speedtest/issues",
     "help_url": "https://github.com/007revad/Synology_Ookla_Speedtest#README.md",
