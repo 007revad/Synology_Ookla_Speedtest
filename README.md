@@ -19,7 +19,6 @@ Works in DSM 7.x for Synology models with Intel, AMD, Realtek, Marvell, Annapurn
 2. In Package Center click on Manual Install.
 3. Browse to where you downloaded the .spk file.
 4. Select the .spk file and click Next.
-5. [Set the permissions that the package needs](https://github.com/007revad/Synology_Ookla_Speedtest/blob/main/set_package_permissions.md). <-- **IMPORTANT**
 
 ### Screenshots
 
