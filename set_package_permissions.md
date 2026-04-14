@@ -28,7 +28,7 @@
 <p align="center"><img src="images/sudoers2.png"></p>
 
 <p align="center">Step 3</p>
-<p align="center"><img src="images/sudoers3.png"></p>
+<p align="center"><img src="images/sudoers3-updated.png"></p>
 
 <p align="center">Step 4</p>
 <p align="center"><img src="images/sudoers4.png"></p>
