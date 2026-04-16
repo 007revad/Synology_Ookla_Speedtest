@@ -1,3 +1,6 @@
+v1.0.22
+- Added permissions step to install UI.
+
 v1.0.21
 - Added favicon.
 - Updated description to include "Internet speed test.
