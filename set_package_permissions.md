@@ -1,4 +1,17 @@
-# How to set package permissions in Synology Task Scheduler
+## How to set the package permissions
+
+There are 2 ways you can set the required permissions for the package.
+
+### Set package permissions via SSH
+
+```
+sudo -i
+echo "Synospeedtest ALL=(Synospeedtest) NOPASSWD: /var/packages/Synospeedtest/target/bin/speedtest.sh" > /etc/sudoers.d/Synospeedtest
+chmod 0440 /etc/sudoers.d/Synospeedtest
+cat /etc/sudoers.d/Synospeedtest
+```
+
+### Set package permissions in Synology Task Scheduler
 
 1. Go to **Control Panel** > **Task Scheduler** > click **Create** > and select **Scheduled Task**.
 2. Select **User-defined script**.
