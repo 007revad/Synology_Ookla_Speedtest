@@ -1,3 +1,6 @@
+v1.0.23
+- Minor changes for making the package available in Package Center from my spk repository.
+
 v1.0.22
 - Added permissions step to install UI.
 
