@@ -78,14 +78,14 @@ jobs:
           ls -l ./dist
           rm ./dist/*_debug.spk
           for f in ./dist/*.spk; do
-            mv "$f" "./dist/Synospeedtest-x86_64-${{ steps.get_latest_tag.outputs.new_tag }}-${{ steps.dsm_suffix.outputs.suffix }}.spk"
+            mv "$f" "./dist/OoklaSpeedtest-x86_64-${{ steps.get_latest_tag.outputs.new_tag }}-${{ steps.dsm_suffix.outputs.suffix }}.spk"
           done
           ls -l ./dist
 
       - name: Create noarch package
         if: steps.check_assets.outputs.spk_count == '0'
         run: |
-          for f in ./dist/Synospeedtest-x86_64-*.spk; do
+          for f in ./dist/OoklaSpeedtest-x86_64-*.spk; do
             noarch="${f/x86_64/noarch}"
             tmpdir=$(mktemp -d)
             tar -xf "$f" -C "$tmpdir"
@@ -99,7 +99,7 @@ jobs:
         if: steps.check_assets.outputs.spk_count == '0'
         uses: actions/upload-artifact@v4
         with:
-          name: SynoSpeedtest-${{ steps.dsm_suffix.outputs.suffix }}
+          name: OoklaSpeedtest-${{ steps.dsm_suffix.outputs.suffix }}
           path: ./dist/*.spk
 
       - name: Release
