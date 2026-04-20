@@ -4,7 +4,7 @@
 # Syno Ookla Speedtest API - CGI API (generate_speedtest_result.sh Content internal integration)
 ################################################################################################
 
-# --------- 1. Common variables and path calculations -------------
+# --------- 1. Common variables and path calculations ------------- 
 
 PKG_NAME="OoklaSpeedtest"
 PKG_ROOT="/var/packages/${PKG_NAME}"

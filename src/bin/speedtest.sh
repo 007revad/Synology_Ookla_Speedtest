@@ -2,7 +2,7 @@
 #--------------------------------------------------------------------------
 # Script to run speedtest-cli and provide a cleaner output
 #
-# Requirements:
+# Requirements: 
 #   - GNU bash (does not work in BusyBox)
 #   - Script must be run as sudo or root
 #--------------------------------------------------------------------------

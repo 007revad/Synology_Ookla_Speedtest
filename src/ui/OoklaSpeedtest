@@ -1,1 +1,2 @@
 OoklaSpeedtest ALL=(OoklaSpeedtest) NOPASSWD: /var/packages/OoklaSpeedtest/target/bin/speedtest.sh
+
