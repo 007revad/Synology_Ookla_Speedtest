@@ -1,5 +1,5 @@
 v1.0.24
-- Bug fix for spk file names not matching what's in my spk repository.
+- Bug fix for spk file names not matching what my spk repository expects (Package Center to fail to download the package).
 - Minor changes for making the package available in Package Center from my spk repository.
 
 v1.0.23
