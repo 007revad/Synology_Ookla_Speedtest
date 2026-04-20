@@ -6,9 +6,9 @@ There are 2 ways you can set the required permissions for the package.
 
 ```
 sudo -i
-echo "Synospeedtest ALL=(Synospeedtest) NOPASSWD: /var/packages/Synospeedtest/target/bin/speedtest.sh" > /etc/sudoers.d/Synospeedtest
-chmod 0440 /etc/sudoers.d/Synospeedtest
-cat /etc/sudoers.d/Synospeedtest
+echo "OoklaSpeedtest ALL=(OoklaSpeedtest) NOPASSWD: /var/packages/OoklaSpeedtest/target/bin/speedtest.sh" > /etc/sudoers.d/OoklaSpeedtest
+chmod 0440 /etc/sudoers.d/OoklaSpeedtest
+cat /etc/sudoers.d/OoklaSpeedtest
 ```
 
 ### Set package permissions in Synology Task Scheduler
@@ -21,9 +21,9 @@ cat /etc/sudoers.d/Synospeedtest
 6. Click **Task Settings**.
 7. In the box under **User-defined script** copy and paste the following. 
     ```
-    pkg=Synospeedtest
-    file=/etc/sudoers.d/Synospeedtest
-    script=/var/packages/Synospeedtest/target/bin/speedtest.sh
+    pkg=OoklaSpeedtest
+    file=/etc/sudoers.d/OoklaSpeedtest
+    script=/var/packages/OoklaSpeedtest/target/bin/speedtest.sh
     echo "$pkg ALL=($pkg) NOPASSWD: $script" > "$file"
     chmod 0440 "$file"
     cat "$file"

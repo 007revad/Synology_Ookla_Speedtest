@@ -120,7 +120,7 @@ done
 
 for line in "${speed_array[@]}"; do
     if [[ "${line}" =~ "Ookla" ]]; then
-        if [[ ! $scriptpath =~ Synospeedtest ]]; then
+        if [[ ! $scriptpath =~ OoklaSpeedtest ]]; then
             echo -e "\n"
         fi
         #if [[ $scheduled == "yes" ]]; then
@@ -142,7 +142,7 @@ done
 #echo -e "\nLines in array: ${#speed_array[@]}\n"  # debug #####################
 
 #if [[ $scheduled == "yes" ]]; then
-if [[ ! $scriptpath =~ Synospeedtest ]]; then
+if [[ ! $scriptpath =~ OoklaSpeedtest ]]; then
     echo -e " \n \n"
 else
     echo

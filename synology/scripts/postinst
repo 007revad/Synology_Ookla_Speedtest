@@ -96,20 +96,20 @@ log_message "Set execute permissions for api.cgi"
 
 # Syno Ookla Speedtest sudoers configuration
 # Configure sudoers for web UI scripts
-#SUDOERS_FILE="/etc/sudoers.d/Synospeedtest"
+#SUDOERS_FILE="/etc/sudoers.d/OoklaSpeedtest"
 #cat << 'EOF' | sudo tee "$SUDOERS_FILE" >/dev/null
-#Synospeedtest ALL=(ALL) NOPASSWD: ALL
+#OoklaSpeedtest ALL=(ALL) NOPASSWD: ALL
 #EOF
 #
 #sudo chmod 0440 "$SUDOERS_FILE"
 #log_message "Sudoers file created and permissions set: $SUDOERS_FILE"
 
 # Setup api.log rotation
-if mv -p "$UI_DIR/logrotate" /etc/logrotate.d/synospeedtest; then
-    log_message "Copied logrotate to /etc/logrotate.d/synospeedtest"
-    chmod 644 /etc/logrotate.d/synospeedtest
+if mv -p "$UI_DIR/logrotate" /etc/logrotate.d/ooklaspeedtest; then
+    log_message "Copied logrotate to /etc/logrotate.d/ooklaspeedtest"
+    chmod 644 /etc/logrotate.d/ooklaspeedtest
 else
-    log_message "Failed to copy logrotate to /etc/logrotate.d/synospeedtest"
+    log_message "Failed to copy logrotate to /etc/logrotate.d/ooklaspeedtest"
 fi
 
 if [ -z "$ERRORS" ]; then

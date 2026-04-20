@@ -1,4 +1,4 @@
-v1.0.24
+v1.0.25
 - Bug fix for spk file names not matching what's in my spk repository.
 - Minor changes for making the package available in Package Center from my spk repository.
 

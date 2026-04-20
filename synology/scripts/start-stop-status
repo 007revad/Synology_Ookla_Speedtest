@@ -11,7 +11,7 @@ case $1 in
         ;;
     status)
         # Check package status - Check if API file exists
-        if [ -f "/var/packages/Synospeedtest/target/ui/api.cgi" ]; then
+        if [ -f "/var/packages/OoklaSpeedtest/target/ui/api.cgi" ]; then
             exit 0  # running
         else
             exit 1  # stopped

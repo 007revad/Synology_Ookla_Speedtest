@@ -1,1 +1,0 @@
-Synospeedtest ALL=(Synospeedtest) NOPASSWD: /var/packages/Synospeedtest/target/bin/speedtest.sh
