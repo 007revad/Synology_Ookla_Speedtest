@@ -1,4 +1,4 @@
-## How to set the package permissions 
+## How to set the package permissions
 
 There are 2 ways you can set the required permissions for the package.
 
