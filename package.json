@@ -1,7 +1,7 @@
 {
   "package": "OoklaSpeedtest",
   "name": "OoklaSpeedtest",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "Ookla Speedtest GUI to test Internet speed",
   "target": "./src",
   "install_type": "package",
@@ -14,8 +14,8 @@
   "synology": {
     "maintainer": "007revad",
     "maintainer_url": "https://github.com/007revad",
-    "distributor": "https://github.com/007revad/Synology_Ookla_Speedtest",
-    "distributor_url": "https://github.com/007revad/Synology_Ookla_Speedtest/releases",
+    "distributor": "007revad",
+    "distributor_url": "https://github.com/007revad/Synology_Ookla_Speedtest",
     "support_url": "https://github.com/007revad/Synology_Ookla_Speedtest/issues",
     "help_url": "https://github.com/007revad/Synology_Ookla_Speedtest#README.md",
     "os_min_ver": "7.0-40337",

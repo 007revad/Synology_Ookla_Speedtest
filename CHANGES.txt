@@ -1,3 +1,6 @@
+v1.0.26
+- Bug fix for GitHub repo URL showing as Publisher in Package Center.
+
 v1.0.25
 - Bug fix for package not starting due to name change.
 
