@@ -5,6 +5,6 @@
     }]
     "step_title": "How to schedule Ookla Speedtest",
     "items": [{
-        "desc": "You can schedule regular Ookla Speedtets and receive an email of the results.<br><br>See the <a target=\"_blank\" href=\"https://github.com/007revad/Synology_Ookla_Speedtest/blob/main/schedule_speed_tests.md\">Scheduling speed tests</a> for details."
+        "desc": "You can schedule regular Ookla Speedtest and receive an email of the results.<br><br>See the <a target=\"_blank\" href=\"https://github.com/007revad/Synology_Ookla_Speedtest/blob/main/schedule_speed_tests.md\">Scheduling speed tests</a> for details."
     }]
 }]

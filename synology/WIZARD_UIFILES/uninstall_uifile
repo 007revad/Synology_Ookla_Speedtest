@@ -1,0 +1,6 @@
+[{
+    "step_title": "Delete schedule",
+    "items": [{
+        "desc": "If you scheduled regular Ookla Speedtests don't forget to delete the scheduled task."
+    }]
+}]
