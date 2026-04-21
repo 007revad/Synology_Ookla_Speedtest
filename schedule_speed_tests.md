@@ -1,5 +1,8 @@
 ## How to schedule speed tests and get an email of the results
 
+<p align="center">Sample email</p>
+<p align="center"><img src="images/email_sample.png"></p>
+
 1. Go to **Control Panel** > **Task Scheduler** > click **Create** > and select **Scheduled Task**.
 2. Select **User-defined script**.
 3. Enter a task name like "Ookla Speedtest.
@@ -11,7 +14,6 @@
 9. In the box under **User-defined script** copy and paste the following. 
     ```
     /var/packages/OoklaSpeedtest/target/bin/speedtest.sh
-    echo -e "\n \n "
     ```
 10. Click **OK** to save the settings.
 
@@ -24,7 +26,7 @@
 <p align="center"><img src="images/schedule2.png"></p>
 
 <p align="center">Step 3</p>
-<p align="center"><img src="images/schedule3-updated.png"></p>
+<p align="center"><img src="images/schedule3.png"></p>
 
 <p align="center">Step 4</p>
 <p align="center"><img src="images/schedule4.png"></p>
