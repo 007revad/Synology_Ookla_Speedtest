@@ -1,3 +1,6 @@
+v1.0.27
+- Added instructions on how to schedule Ookla Speedtests and receive an email of the results.
+
 v1.0.26
 - Bug fix for GitHub repo URL showing as Publisher in Package Center.
 
