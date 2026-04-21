@@ -21,6 +21,10 @@ Works in DSM 7.x for Synology models with Intel, AMD, Realtek, Marvell, Annapurn
 4. Select the .spk file and click Next.
 5. [Set the permissions that the package needs](https://github.com/007revad/Synology_Ookla_Speedtest/blob/main/set_package_permissions.md). <-- **IMPORTANT**
 
+### Scheduling speedtests
+
+If you want to schedule speedtests and get an email of the results see [Scheduling speed tests](https://github.com/007revad/Synology_Ookla_Speedtest/blob/main/schedule_speed_tests.md)
+
 ### Screenshots
 
 <!--- <p align="center">Description of image 1 goes here</p> --->
