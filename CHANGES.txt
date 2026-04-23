@@ -1,5 +1,6 @@
 v1.0.28
 - But fix for being to upgrade not able to install.
+- Added instructions on how to schedule Ookla Speedtests and receive an email of the results.
 
 v1.0.27
 - Added instructions on how to schedule Ookla Speedtests and receive an email of the results.
