@@ -12,6 +12,12 @@ log_message() {
 
 log_message "Post-installation starting for package: $PKG_NAME"
 
+# Remove spurious files injected by the package builder
+rm -f  "$UI_DIR/Makefile"
+rm -f  "$UI_DIR/ui"  # self-referencing symlink
+rm -f  "$UI_DIR/texts/strings"  # strings file template
+log_message "Removed spurious package builder files"
+
 # Create VAR directory
 if mkdir -p "$VAR_DIR"; then
     log_message "VAR_DIR created or already exists: $VAR_DIR"

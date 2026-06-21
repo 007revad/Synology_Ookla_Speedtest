@@ -119,16 +119,28 @@ clean_system_string() {
 get_system_info() {
     local model platform productversion build version smallfix
 
-    model="$(cat /proc/sys/kernel/syno_hw_version 2>/dev/null || echo '')"
-    platform="$(/bin/get_key_value /etc.defaults/synoinfo.conf platform_name 2>/dev/null || echo '')"
+    dsm=$(get_key_value /etc.defaults/VERSION majorversion)
+    if [[ "$dsm" -gt "6" ]]; then
+        # DSM 7
+        platform="$(/bin/get_key_value /etc.defaults/synoinfo.conf platform_name 2>/dev/null || echo '')"
+    else
+        # DSM 6
+        platform="$(/bin/get_key_value /etc.defaults/synoinfo.conf synobios 2>/dev/null || echo '')"
+    fi
     productversion="$(/bin/get_key_value /etc.defaults/VERSION productversion 2>/dev/null || echo '')"
     build="$(/bin/get_key_value /etc.defaults/VERSION buildnumber 2>/dev/null || echo '')"
 
-    # Fix dodgy characters after model number
-    if [[ "${model,,}" =~ 'pv10-j'$ ]]; then
-        model=${model%??????}+          # replace last 6 chars with +
-    elif [[ "${model,,}" =~ '-j'$ ]]; then
-        model=${model%??}               # remove last 2 chars
+    model="$(synogetkeyvalue /etc.defaults/synoinfo.conf upnpmodelname)"
+	# Fallback for systems where upnpmodelname is unavailable
+    if [[ -z "$model" && -f /proc/sys/kernel/syno_hw_version ]]; then
+        model="$(cat /proc/sys/kernel/syno_hw_version 2>/dev/null || echo '')"
+
+        # Check for dodgy characters after model number
+        if [[ $model =~ 'pv10-j'$ ]]; then  # GitHub syno_hdd_db issue #10
+            model=${model%??????}+          # replace last 6 chars with +
+        elif [[ $model =~ '-j'$ ]]; then    # GitHub syno_hdd_db issue #2
+            model=${model%??}               # remove last 2 chars
+        fi
     fi
 
     if [ -n "$productversion" ] && [ -n "$build" ]; then
@@ -254,15 +266,27 @@ run)
             rm -f "$TMP_RESULT" "$TMP_STDERR"
     
             if [ -n "$OPTION" ]; then
-                #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
-                timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                if [[ "$dsm" -gt "6" ]]; then
+                    #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                    timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                else
+                    timeout 240 sudo "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                fi
             elif [[ "$ID" =~ ^[0-9]+$ ]]; then
-                # Only pass ID when it is a non-empty string of digits
-                #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
-                timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                if [[ "$dsm" -gt "6" ]]; then
+                    # Only pass ID when it is a non-empty string of digits
+                    #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                    timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                else
+                    timeout 240 sudo "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                fi
             else
-                #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
-                timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                if [[ "$dsm" -gt "6" ]]; then
+                    #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                    timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                else
+                    timeout 240 sudo "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                fi
             fi
             CMD_PID=$!
     

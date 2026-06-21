@@ -1,3 +1,7 @@
+v1.0.29
+- Added spinner gif while waiting for speedtest to finish.
+- Added package for DSM 6.
+
 v1.0.28
 - But fix for being to upgrade not able to install.
 - Added instructions on how to schedule Ookla Speedtests and receive an email of the results.

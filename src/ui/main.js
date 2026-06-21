@@ -105,8 +105,13 @@ document.addEventListener('DOMContentLoaded', () => {
     runBtn.addEventListener('click', () => {
         const selectedOption = optionSelect.value;
 
-        updateStatus('Starting Speed Test... Please wait.', 'warning');
-        output.textContent = 'Initiating Speed Test...\nPlease wait up to 1 minute.';
+        updateStatus('Starting Speed Test...', 'warning');
+        output.innerHTML = `
+            <div id="loading" style="display:flex; align-items:center; justify-content:center; gap:12px; padding:20px;">
+                <img src="images/wait_triangle_blue_40p.gif" alt="" width="40" height="40">
+                <span>Running Speed Test... Please wait up to 1 minute.</span>
+            </div>
+        `;
         toggleBtn.style.display = 'none';
         setButtonsEnabled(false);
 
