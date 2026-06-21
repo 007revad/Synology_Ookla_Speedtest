@@ -1,5 +1,5 @@
 v1.0.29
-- Added spinner gif while waiting for speedtest to finish.
+- Added loading gif while waiting for Ookla Speedtest to finish.
 - Added package for DSM 6.
 
 v1.0.28
