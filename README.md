@@ -11,7 +11,9 @@
 
 Synology package to install Ookla Speedtest and run it in a GUI to test your Internet speed.
 
-Works in DSM 7.x for Synology models with Intel, AMD, Realtek, Marvell, Annapurna, STM and Mindspeed CPUs.
+Works for Synology models with Intel, AMD, Realtek, Marvell, Annapurna, STM and Mindspeed CPUs.
+
+Available as DSM 7 and DSM 6 packages.
 
 ### How to install the package
 
