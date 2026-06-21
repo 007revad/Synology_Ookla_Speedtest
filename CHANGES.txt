@@ -1,3 +1,6 @@
+v1.0.30
+- Bug fix for v1.0.29 DSM 6 package having minimum DSM version 7.0.
+
 v1.0.29
 - Added spinner gif while waiting for speedtest to finish.
 - Added package for DSM 6.
