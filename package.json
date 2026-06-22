@@ -5,8 +5,6 @@
   "description": "Ookla Speedtest GUI to test Internet speed",
   "target": "./src",
   "install_type": "package",
-  "dsmuidir": "ui",
-  "dsmappname": "SYNO.SDS.OoklaSpeedtest",
   "install_dep_packages": "",
   "ctl_stop": "yes",
   "ctl_uninstall": "yes",
@@ -22,6 +20,8 @@
     "os_max_ver": "9.9-99999",
     "arch": "x86_64",
     "displayname": "Ookla Speedtest",
+    "dsmuidir": "ui",
+    "dsmappname": "SYNO.SDS.OoklaSpeedtest",
     "thirdparty": "yes",
     "beta": "no"
   }

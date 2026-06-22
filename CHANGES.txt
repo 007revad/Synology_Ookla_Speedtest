@@ -1,3 +1,7 @@
+v1.0.31
+- Added package for DSM 6.
+- Bug fixes for DSM 7 installation failing.
+
 v1.0.30
 - Bug fix for v1.0.29 DSM 6 package having minimum DSM version 7.0.
 
