@@ -1,3 +1,6 @@
+v1.0.34
+- DSM 7 bug fix for the `Failed: Speed Test failed` due to `sudo` requiring a password.
+
 v1.0.33
 - DSM 7 bug fix for the Open button not showing until up to an hour after installing.
 - DSM 6 bug fix for the Open button not showing and the webui not working.

@@ -19,6 +19,7 @@ RESULT_FILE="${RESULT_DIR}/speedtest.result"
 
 SPEED_SCRIPT="${BIN_DIR}/speedtest.sh"
 SERVERS_SCRIPT="${BIN_DIR}/servers.sh"
+DSM_MAJOR=$(get_key_value /etc.defaults/VERSION majorversion)
 
 mkdir -p "${LOG_DIR}" "${RESULT_DIR}"
 
@@ -119,8 +120,7 @@ clean_system_string() {
 get_system_info() {
     local model platform productversion build version smallfix
 
-    dsm=$(get_key_value /etc.defaults/VERSION majorversion)
-    if [[ "$dsm" -gt "6" ]]; then
+    if [[ "$DSM_MAJOR" -gt "6" ]]; then
         # DSM 7
         platform="$(/bin/get_key_value /etc.defaults/synoinfo.conf platform_name 2>/dev/null || echo '')"
     else
@@ -266,14 +266,14 @@ run)
             rm -f "$TMP_RESULT" "$TMP_STDERR"
     
             if [ -n "$OPTION" ]; then
-                if [[ "$dsm" -gt "6" ]]; then
+                if [[ "$DSM_MAJOR" -gt "6" ]]; then
                     #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                     timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 else
                     timeout 240 sudo "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 fi
             elif [[ "$ID" =~ ^[0-9]+$ ]]; then
-                if [[ "$dsm" -gt "6" ]]; then
+                if [[ "$DSM_MAJOR" -gt "6" ]]; then
                     # Only pass ID when it is a non-empty string of digits
                     #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                     timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
@@ -281,7 +281,7 @@ run)
                     timeout 240 sudo "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 fi
             else
-                if [[ "$dsm" -gt "6" ]]; then
+                if [[ "$DSM_MAJOR" -gt "6" ]]; then
                     #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                     timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 else
