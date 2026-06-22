@@ -1,3 +1,6 @@
+v1.0.33
+- Bug fix for Open button not showing and webui broken.
+
 v1.0.32
 - Bug fix for v1.0.31 having v1.0.30 in it's INFO file. 
 

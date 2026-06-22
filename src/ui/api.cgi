@@ -14,7 +14,7 @@ LOG_DIR="${PKG_ROOT}/var"
 LOG_FILE="${LOG_DIR}/api.log"
 SERVERS_FILE="${LOG_DIR}/servers.list"
 BIN_DIR="${TARGET_DIR}/bin"
-RESULT_DIR="/usr/syno/synoman/webman/3rdparty/${PKG_NAME}/result"
+RESULT_DIR="$TARGET_DIR/ui/result"
 RESULT_FILE="${RESULT_DIR}/speedtest.result"
 
 SPEED_SCRIPT="${BIN_DIR}/speedtest.sh"

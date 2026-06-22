@@ -21,13 +21,15 @@ rm -f  "$UI_DIR/ui"  # self-referencing symlink
 rm -f  "$UI_DIR/texts/strings"  # strings file template
 log_message "Removed spurious package builder files"
 
-# Create symbolic link for UI
-#if ln -sf "/var/packages/$PKG_NAME/target/ui" "/usr/syno/synoman/webman/3rdparty/$PKG_NAME" 2>/dev/null; then
-#    log_message "Created web interface symlink"
-#else
-#    log_message "Warning: Failed to create web interface symlink"
-#    ERRORS="1"
-#fi
+# Fix for DSM not creating symlink when a real directory with same name already exists
+# To fix issue created by saving results to /usr/syno/synoman/webman/3rdparty/${PKG_NAME}/results
+# which prevented the Open button from showing and prevented the webui from working
+WEBMAN_PATH="/usr/syno/synoman/webman/3rdparty/${PKG_NAME}"
+if [ -d "$WEBMAN_PATH" ] && [ ! -L "$WEBMAN_PATH" ]; then
+    # Real directory exists instead of symlink - replace it
+    rm -rf "$WEBMAN_PATH"
+    ln -sf "/var/packages/${PKG_NAME}/target/ui" "$WEBMAN_PATH"
+fi
 
 # Create symbolic link for armv7l (seven el not seven one)
 if ln -sf armhf "/var/packages/$PKG_NAME/target/bin/armv7l" 2>/dev/null; then
@@ -68,7 +70,8 @@ else
 fi
 
 # Create result directory in webman (for static file serving)
-RESULT_DIR="/usr/syno/synoman/webman/3rdparty/$PKG_NAME/result"
+#RESULT_DIR="/usr/syno/synoman/webman/3rdparty/$PKG_NAME/result"
+RESULT_DIR="$UI_DIR/result"
 if mkdir -p "$RESULT_DIR"; then
     log_message "Created result directory: $RESULT_DIR"
     chmod 755 "$RESULT_DIR"

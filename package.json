@@ -1,7 +1,7 @@
 {
   "package": "OoklaSpeedtest",
   "name": "OoklaSpeedtest",
-  "version": "1.0.32",
+  "version": "1.0.33",
   "description": "Ookla Speedtest GUI to test Internet speed",
   "target": "./src",
   "install_type": "package",
