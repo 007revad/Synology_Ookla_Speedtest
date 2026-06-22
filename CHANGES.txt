@@ -1,6 +1,6 @@
 v1.0.33
 - DSM 7 bug fix for the Open button not showing until up to an hour after installing.
-- DSM 6 bug fix for the Open button not showing and webui not working.
+- DSM 6 bug fix for the Open button not showing and the webui not working.
 
 v1.0.32
 - Bug fix for v1.0.31 having v1.0.30 in it's INFO file. 
