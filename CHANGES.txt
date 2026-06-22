@@ -1,5 +1,5 @@
 v1.0.32
-- Bug fix for v1.0.31 having v1.0.30 in it's INFO file.
+- Bug fix for v1.0.31 having v1.0.30 in it's INFO file. 
 
 v1.0.31
 - Added package for DSM 6.
