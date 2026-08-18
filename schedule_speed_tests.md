@@ -1,7 +1,7 @@
 ## How to schedule speed tests and get an email of the results
 
 <p align="center">Sample email</p>
-<p align="center"><img src="images/email_sample.png"></p>
+<p align="center"><kbd><img src="images/email_sample.png"></kbd></p>
 
 1. Go to **Control Panel** > **Task Scheduler** > click **Create** > and select **Scheduled Task**.
 2. Select **User-defined script**.
@@ -21,7 +21,7 @@
 **Here's some screenshots showing what needs to be set:**
 
 <p align="center">Step 1</p>
-<p align="center"><img src="images/schedule1.png"></p>
+<p align="center"><kbd><img src="images/schedule1.png"></kbd></p>
 
 <p align="center">Step 2</p>
 <p align="center"><img src="images/schedule2.png"></p>
