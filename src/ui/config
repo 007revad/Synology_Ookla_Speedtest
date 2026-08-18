@@ -1,14 +1,19 @@
 {
-  ".url": {
-    "SYNO.SDS.OoklaSpeedtest": {
-      "type"       : "url",
-      "icon"       : "images/icon_256.png",
+  "main.js": {
+    "SYNO.SDS._ThirdParty.App.OoklaSpeedtest": {
+      "type": "app",
       "title"      : "Syno Ookla Speedtest",
       "desc"       : "Syno Ookla Speedtest",
-      "url"        : "webman/3rdparty/OoklaSpeedtest/index.html",        
-      "width"      : 800,
-      "height"     : 600,
+      "icon"       : "images/icon_256.png",
+      "appWindow": "SYNO.SDS.OoklaSpeedtest.MainWindow",
+      "allowMultiInstance": false,
+      "allowStandalone": true,
       "allUsers"   : true
+    },
+    "SYNO.SDS.OoklaSpeedtest.MainWindow": {
+      "type": "lib",
+      "title": "OoklaSpeedtest",
+      "icon": "images/icon_{0}.png"
     }
   }
 }

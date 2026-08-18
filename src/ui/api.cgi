@@ -10,7 +10,12 @@ PKG_NAME="OoklaSpeedtest"
 PKG_ROOT="/var/packages/${PKG_NAME}"
 PKG_VERSION=$(synopkg version "$PKG_NAME")
 TARGET_DIR="${PKG_ROOT}/target"
-LOG_DIR="${PKG_ROOT}/var"
+DSM_MAJOR=$(get_key_value /etc.defaults/VERSION majorversion)
+if [[ "$DSM_MAJOR" -gt "6" ]]; then
+    LOG_DIR="${PKG_ROOT}/var"
+else
+    LOG_DIR="${PKG_ROOT}/etc"
+fi
 LOG_FILE="${LOG_DIR}/api.log"
 SERVERS_FILE="${LOG_DIR}/servers.list"
 BIN_DIR="${TARGET_DIR}/bin"
@@ -19,7 +24,6 @@ RESULT_FILE="${RESULT_DIR}/speedtest.result"
 
 SPEED_SCRIPT="${BIN_DIR}/speedtest.sh"
 SERVERS_SCRIPT="${BIN_DIR}/servers.sh"
-DSM_MAJOR=$(get_key_value /etc.defaults/VERSION majorversion)
 
 mkdir -p "${LOG_DIR}" "${RESULT_DIR}"
 
@@ -268,7 +272,8 @@ run)
             if [ -n "$OPTION" ]; then
                 if [[ "$DSM_MAJOR" -gt "6" ]]; then
                     #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
-                    timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                    #timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                    timeout 240 env HOME="${LOG_DIR}" "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 else
                     timeout 240 sudo "${SPEED_SCRIPT}" "$OPTION" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 fi
@@ -276,14 +281,16 @@ run)
                 if [[ "$DSM_MAJOR" -gt "6" ]]; then
                     # Only pass ID when it is a non-empty string of digits
                     #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
-                    timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                    #timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                    timeout 240 env HOME="${LOG_DIR}" "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 else
                     timeout 240 sudo "${SPEED_SCRIPT}" "$ID" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 fi
             else
                 if [[ "$DSM_MAJOR" -gt "6" ]]; then
                     #timeout 240 sudo -u OoklaSpeedtest env HOME=/var/packages/OoklaSpeedtest/home "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
-                    timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                    #timeout 240 sudo -u OoklaSpeedtest "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
+                    timeout 240 env HOME="${LOG_DIR}" "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 else
                     timeout 240 sudo "${SPEED_SCRIPT}" > "$TMP_RESULT" 2> "$TMP_STDERR" &
                 fi
@@ -318,7 +325,13 @@ run)
                 RESULT_URL_JSON=$(echo "$RESULT_URL" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
                 DATA_JSON=$(json_escape "$SPEED_RESULT")
                 MSG_JSON=$(echo "Speed Test completed" | python3 -c 'import json,sys; print(json.dumps(sys.stdin.read().strip()))')
-                echo "{\"success\":true, \"message\":${MSG_JSON}, \"result\":${DATA_JSON}, \"result_url\":${RESULT_URL_JSON}}"
+                ALERTS_JSON=$(echo "$SPEED_RESULT" | python3 -c "
+import json, sys
+text = sys.stdin.read()
+alerts = [l.strip() for l in text.splitlines() if l.strip().startswith('ALERT:')]
+print(json.dumps(alerts))
+")
+                echo "{\"success\":true, \"message\":${MSG_JSON}, \"result\":${DATA_JSON}, \"result_url\":${RESULT_URL_JSON}, \"alerts\":${ALERTS_JSON}}"
             else
                 LAST_ERROR=$(python3 -c "
 import json, sys, re

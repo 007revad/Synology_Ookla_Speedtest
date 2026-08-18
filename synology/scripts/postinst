@@ -3,12 +3,20 @@
 PKG_NAME=$(basename "$SYNOPKG_PKGDEST")
 TARGET_DIR="/var/packages/$PKG_NAME/target"
 UI_DIR="$TARGET_DIR/ui"
-VAR_DIR="/var/packages/$PKG_NAME/var"
+DSM=$(get_key_value /etc.defaults/VERSION majorversion)
+if [[ "$DSM" -gt "6" ]]; then
+    VAR_DIR="/var/packages/$PKG_NAME/var"
+else
+    VAR_DIR="/var/packages/$PKG_NAME/etc"
+fi
 
 # Log function
 log_message() {
     echo "[$(date '+%Y-%m-%d %H:%M:%S')] $1" >> "$VAR_DIR/install.log" 2>/dev/null || echo "$1"
 }
+
+mkdir -p "$VAR_DIR" 2>/dev/null || true
+echo "" >> "$VAR_DIR/install.log"
 
 # Create var directory for logs
 mkdir -p "$VAR_DIR" || { echo "Error: Failed to create VAR_DIR"; exit 1; }
