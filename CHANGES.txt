@@ -1,8 +1,8 @@
 v1.1.35
 - Changed from a webpage to a DSM app window.
 - Removed the need to set elevated permissions.
-- Now logs last download and upload speeds and will show if:
-  1. The download or upload speed drops to 90% of the previous result.
+- Now logs last download and upload speeds and will show alert if:
+  1. The download or upload speed drops by 10% of the previous result.
   2. The download speed drops to a lower Ethernet speed (25G to 10G to 5G to 2.5G to 1G to 100M to 10M).
 - If you schedule it with "Send run details only when script terminates abnormally" ticked you'll get an email for 1 or 2 above.
   - See https://github.com/007revad/Synology_Ookla_Speedtest/blob/main/schedule_speed_tests.md
