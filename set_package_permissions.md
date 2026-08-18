@@ -37,13 +37,13 @@ cat /etc/sudoers.d/OoklaSpeedtest
 **Here's some screenshots showing what needs to be set:**
 
 <p align="center">Step 1</p>
-<p align="center"><img src="images/sudoers1.png"></p>
+<p align="center"><kbd><img src="images/sudoers1.png"></kbd></p>
 
 <p align="center">Step 2</p>
 <p align="center"><img src="images/sudoers2.png"></p>
 
 <p align="center">Step 3</p>
-<p align="center"><img src="images/sudoers3-updated.png"></p>
+<p align="center"><kbd><img src="images/sudoers3-updated.png"></kbd></p>
 
 <p align="center">Step 4</p>
-<p align="center"><img src="images/sudoers4.png"></p>
+<p align="center"><kbd><img src="images/sudoers4.png"></kbd></p>
