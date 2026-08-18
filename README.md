@@ -38,19 +38,29 @@ If you want to schedule speedtests and get an email of the results see [Scheduli
 ### Screenshots
 
 <!--- <p align="center">Description of image 1 goes here</p> --->
-<p align="center"><img src="/images/installed.png"></p>
+<p align="center"><kbd><img src="/images/installed2.png"></kbd></p>
 
 <!--- <br> --->
 
 <!--- <p align="center">Description of image 2 goes here</p> --->
-<p align="center"><img src="/images/result_graphic.png"></p>
+<p align="center"><kbd><img src="/images/window.png"></kbd></p>
 
 <!--- <br> --->
 
 <!--- <p align="center">Description of image 2 goes here</p> --->
-<p align="center"><img src="/images/result_text.png"></p>
+<p align="center"><kbd><img src="/images/window_text.png"></kbd></p>
 
 <!--- <br> --->
 
 <!--- <p align="center">Select Server list</p> --->
-<p align="center"><img src="/images/select_server.png"></p>
+<p align="center"><img src="/images/select_server_app.png"></p>
+
+<!--- <br> --->
+
+<!--- <p align="center">Select Server list</p> --->
+<p align="center"><img src="/images/alert_graphic.png"></p>
+
+<!--- <br> --->
+
+<p align="center">Email when scheduled in Task Scheduler</p>
+<p align="center"><img src="/images/email_sample.png"></p>
