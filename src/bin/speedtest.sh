@@ -16,7 +16,7 @@ id=
 
 #--------------------------------------------------------------------------
 
-#scriptname=speedtest
+scriptname=speedtest
 pkgname=OoklaSpeedtest
 
 if [[ -z "$id" && -n "$1" ]]; then
@@ -118,10 +118,10 @@ fi
 if [[ -n "$id" ]]; then
     # id variable for server-id is set
     #readarray -t speed_array_tmp <<< "$(docker run -t gists/speedtest-cli speedtest --server-id="$id" --progress=no --accept-license | tr '\r' '\n' | tr -s '\n' | sed '/^[[:space:]]*$/d')"
-    readarray -t speed_array_tmp <<< "$("$speedtest" --server-id="$id" --progress=no --accept-license --accept-gdpr | tr '\r' '\n' | tr -s '\n' | sed '/^[[:space:]]*$/d')"
+    readarray -t speed_array_tmp <<< "$("$speedtest" --server-id="$id" --progress=no --accept-license --accept-gdpr 2>&1 | tr '\r' '\n' | tr -s '\n' | sed '/^[[:space:]]*$/d')"
 else
     #readarray -t speed_array_tmp <<< "$(docker run -t gists/speedtest-cli speedtest --progress=no --accept-license | tr '\r' '\n' | tr -s '\n' | sed '/^[[:space:]]*$/d')"
-    readarray -t speed_array_tmp <<< "$("$speedtest" --progress=no --accept-license --accept-gdpr | tr '\r' '\n' | tr -s '\n' | sed '/^[[:space:]]*$/d')"
+    readarray -t speed_array_tmp <<< "$("$speedtest" --progress=no --accept-license --accept-gdpr 2>&1 | tr '\r' '\n' | tr -s '\n' | sed '/^[[:space:]]*$/d')"
 fi
 
 # Strip license header from array
@@ -209,10 +209,10 @@ if [[ ${#alert_array[@]} -gt "0" ]]; then
 fi
 
 #if [[ $scheduled == "yes" ]]; then
-if [[ ! $scriptpath =~ OoklaSpeedtest ]]; then
-    echo -e " \n \n"
-else
+#if [[ ! $scriptpath =~ OoklaSpeedtest ]] && [[ $scheduled != "yes" ]]; then
+#    echo -e " \n \n"
+#else
     echo
-fi
+#fi
 
 if [[ ${#alert_array[@]} -gt "0" ]]; then exit 1; fi

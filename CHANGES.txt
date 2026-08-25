@@ -1,3 +1,6 @@
+v1.1.36
+- Removed header from text output when speedtest.sh scheduled to run in Task Scheduler.
+
 v1.1.35
 - Changed from a webpage to a DSM app window.
 - Removed the need to set elevated permissions.
