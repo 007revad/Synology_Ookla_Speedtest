@@ -171,7 +171,7 @@ log_result(){
 }
 
 for line in "${speed_array[@]}"; do
-    if [[ "${line}" =~ "Ookla" ]]; then
+    if [[ "${line}" =~ "Speedtest by Ookla" ]]; then
         if [[ ! $scriptpath =~ OoklaSpeedtest ]]; then
             echo -e "\n"
         fi
@@ -189,12 +189,13 @@ for line in "${speed_array[@]}"; do
         if [[ "${line}" =~ "Download:" ]]; then
             download="$(echo "$line" | awk '{print $2}')"
             log_result "$download" download
+            echo "$line" | sed -e 's/[[:space:]]*$//'  # Remove trailing whitespace
         elif [[ "${line}" =~ "Upload:" ]]; then
             upload="$(echo "$line" | awk '{print $2}')"
             log_result "$upload" upload
+            echo "$line" | sed -e 's/[[:space:]]*$//'  # Remove trailing whitespace
         else
-            # Remove trailing whitespace
-            echo "$line" | sed -e 's/[[:space:]]*$//'
+            echo "$line" | sed -e 's/[[:space:]]*$//'  # Remove trailing whitespace
         fi
     fi
 done

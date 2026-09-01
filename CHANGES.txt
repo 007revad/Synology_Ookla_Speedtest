@@ -1,3 +1,6 @@
+v1.1.38
+- Bug fix for the text view not showing the Download and Upload speeds.
+
 v1.1.37
 - Bug fix for not installing python3 in DSM 6 if python3 not installed.
 
