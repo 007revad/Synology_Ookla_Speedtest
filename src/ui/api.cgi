@@ -8,7 +8,8 @@
 
 PKG_NAME="OoklaSpeedtest"
 PKG_ROOT="/var/packages/${PKG_NAME}"
-PKG_VERSION=$(synopkg version "$PKG_NAME")
+#PKG_VERSION=$(synopkg version "$PKG_NAME")  # 0.3 seconds slower
+PKG_VERSION=$(synogetkeyvalue "${PKG_ROOT}/INFO" version)
 TARGET_DIR="${PKG_ROOT}/target"
 DSM_MAJOR=$(get_key_value /etc.defaults/VERSION majorversion)
 if [[ "$DSM_MAJOR" -gt "6" ]]; then

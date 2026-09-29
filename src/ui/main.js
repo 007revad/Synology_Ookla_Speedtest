@@ -56,8 +56,23 @@ Ext.define("SYNO.SDS.OoklaSpeedtest.MainWindow", {
     },
 
     onAfterRender: function() {
+        var me = this;
         var el = this.body.dom;
         this.frameEl = el.querySelector(".ooklaspeedtest-frame");
+        var frame = this.frameEl;
+        if (!frame) {
+            return;
+        }
+        // Clicks inside the iframe never reach DSM's window manager, so forward them
+        var attach = function() {
+            try {
+                frame.contentWindow.document.addEventListener("mousedown", function() {
+                    me.toFront();
+                }, true);
+            } catch (e) {}
+        };
+        frame.addEventListener("load", attach);
+        attach();
     },
 
     onClose: function() {

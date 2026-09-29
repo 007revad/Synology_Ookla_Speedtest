@@ -1,3 +1,7 @@
+v1.1.39
+- Changed so if another window is on top clicking anywhere in the visible part of Ookla Speedtest's window brings it to the front.
+  - Previously you had to click the Ookla Speedtest window's title bar.
+
 v1.1.38
 - Bug fix for the text view not showing the Download and Upload speeds.
 
