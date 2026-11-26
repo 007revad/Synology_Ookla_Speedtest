@@ -33,6 +33,8 @@ Ext.define("SYNO.SDS.OoklaSpeedtest.MainWindow", {
             showHelp: false,
             width: 800,
             height: 630,
+            minWidth: 800,
+            minHeight: 630,
             html: this.buildHtml(),
             listeners: {
                 afterrender: {
